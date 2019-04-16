@@ -1,4 +1,4 @@
-" set nocompatible
+set nocompatible
 
 execute pathogen#infect()
 
