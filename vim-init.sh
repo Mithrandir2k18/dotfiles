@@ -7,7 +7,7 @@ echo "Assuming dotfiles repo is located in ~/dotfiles"
 ln -s ~/dotfiles/.vimrc ~/.vimrc
 sudo apt update 
 sudo apt upgrade -y
-sudo apt install vim cscope -y
+sudo apt install vim ctags -y
 
 echo "Cloning plungins..."
 mkdir -p ~/.vim/autoload ~/.vim/bundle
