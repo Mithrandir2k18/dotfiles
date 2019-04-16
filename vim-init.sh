@@ -1,17 +1,16 @@
 #!/bin/bash
-
+echo "Requiring sudo powers for duration of this script(max. 15 minutes)"
+sudo -v
 echo "Installing vim and used plugins..."
 echo "Assuming dotfiles repo is located in ~/dotfiles"
 
-sudo -u $SUDO_USER "ln -s ~/dotfiles/.vimrc ~/.vimrc"
+ln -s ~/dotfiles/.vimrc ~/.vimrc
+sudo apt update && apt upgrade -y
+sudo apt install vim cscope -y
 
-
-apt update && apt upgrade -y
-apt install vim cscope
-
-sudo -u $SUDO_USER "mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim"
-
-sudo -u $SUDO_USER "git clone https://github.com/vim-scripts/taglist.vim ~/.vim/bundle/"
-sudo -u $SUDO_USER "git clone https://github.com/tpope/vim-surround ~/.vim/bundle/"
-sudo -u $SUDO_USER "git clone https://github.com/tpope/vim-repeat ~/.vim/bundle/"
+echo "Cloning plungins..."
+mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+git clone https://github.com/vim-scripts/taglist.vim ~/.vim/bundle/
+git clone https://github.com/tpope/vim-surround ~/.vim/bundle/
+git clone https://github.com/tpope/vim-repeat ~/.vim/bundle/
 
