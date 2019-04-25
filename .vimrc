@@ -2,8 +2,12 @@ set nocompatible
 
 execute pathogen#infect()
 
+" Displays
 set number
 set relativenumber
+set ruler
+" set ignorecase ignores case when searching
+"
 " TODO colorscheme
 syntax on " enable syntax processing
 set tabstop=4 " visual amount of spaces per tab
