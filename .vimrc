@@ -30,3 +30,6 @@ let g:ctrlp_match_window='bottom,order:btt' " order matches bottom to top
 let g:ctrlp_switch_buffer=0 " always open files in new buffer
 let g:ctrlp_working_path=0 " ctrlp will respect path change
 
+call camelcasemotion#CreateMotionMappings(',') " camelcasemotion default mappings. use ,w to skip ahead one word
+
+
