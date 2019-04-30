@@ -9,6 +9,8 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt install git curl vim ctags -y
 
+# TODO add powerline font dependency
+
 echo "Installing pathogen..."
 if [ ! -d "$HOME/.vim/autoload" ] ; then
     mkdir -p ~/.vim/autoload ~/.vim/bundle

@@ -1,4 +1,5 @@
 set nocompatible
+set encoding=utf-8
 
 execute pathogen#infect()
 
@@ -6,6 +7,7 @@ execute pathogen#infect()
 set number
 set relativenumber
 set ruler
+" Spelling
 set spelllang=en_gb
 set spell
 hi clear SpellBad
@@ -39,6 +41,15 @@ let g:ctrlp_match_window='bottom,order:btt' " order matches bottom to top
 let g:ctrlp_switch_buffer=0 " always open files in new buffer
 let g:ctrlp_working_path=0 " ctrlp will respect path change
 
+" CamelCaseMotion
 call camelcasemotion#CreateMotionMappings(',') " camelcasemotion default mappings. use ,w to skip ahead one word
 
+" vim-airline
+" TODO finish customization
+let g:airline_powerline_fonts=1
+" let g:Powerline_symbols='unicode'
+let g:airline#extensions#hunks#enabled=0
+let g:airline#extensions#branch#enabled=1
+let g:airline_detect_spelllang=0
+let g:airline_detect_spell=0
 
