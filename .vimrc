@@ -6,6 +6,11 @@ execute pathogen#infect()
 set number
 set relativenumber
 set ruler
+set spelllang=en_gb
+set spell
+hi clear SpellBad
+hi SpellBad cterm=underline
+
 " set ignorecase ignores case when searching
 "
 " TODO colorscheme
