@@ -6,15 +6,23 @@ execute pathogen#infect()
 " Displays
 set number
 set relativenumber
-set ruler
+
+
 " Spelling
 set spelllang=en_gb
 set spell
 hi clear SpellBad
 hi SpellBad cterm=underline
+set autoindent
+set smartindent
+set wrap
+set linebreak
+set nolist " list disables linebreak. Then wraps happen on a character, not a word
 
-" set ignorecase ignores case when searching
-"
+" Searching
+set ignorecase " set ignorecase ignores case when searching
+
+
 " TODO colorscheme
 syntax on " enable syntax processing
 set tabstop=4 " visual amount of spaces per tab
@@ -30,11 +38,16 @@ set incsearch " search matches during typing
 set hlsearch " highlight matches
 " TODO folding
 
+" Custom mappings:
+let mapleader=' '
+imap jj <Esc>
+
 "MOVEMENT
 " these two mappings make vim scroll down/up into visual lines and not skip
 " over wrapped lines
 " nnoremap j gj
 " nnoremap k gk
+
 
 " CtrlP
 let g:ctrlp_match_window='bottom,order:btt' " order matches bottom to top
@@ -42,7 +55,7 @@ let g:ctrlp_switch_buffer=0 " always open files in new buffer
 let g:ctrlp_working_path=0 " ctrlp will respect path change
 
 " CamelCaseMotion
-call camelcasemotion#CreateMotionMappings(',') " camelcasemotion default mappings. use ,w to skip ahead one word
+call camelcasemotion#CreateMotionMappings('<Leader>') " camelcasemotion default mappings. Use <Space>w to skip ahead one word in a camelCased variable
 
 " vim-airline
 " TODO finish customization
