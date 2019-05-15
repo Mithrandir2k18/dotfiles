@@ -41,6 +41,9 @@ set hlsearch " highlight matches
 " Custom mappings:
 let mapleader=' '
 imap jj <Esc>
+" map to write as sudo. Use if you forgot to 'sudo vim' a protected file and
+" you KNOW WHAT YOU ARE DOING
+cmap w!! w !sudo tee > /dev/null %
 
 "MOVEMENT
 " these two mappings make vim scroll down/up into visual lines and not skip
