@@ -14,4 +14,5 @@ git_clone_if_missing tpope vim-repeat
 git_clone_if_missing bkad CamelCaseMotion
 git_clone_if_missing vim-airline vim-airline
 git_clone_if_missing tpope vim-fugitive
+git_clone_if_missing ctrlpvim ctrlp.vim
 
