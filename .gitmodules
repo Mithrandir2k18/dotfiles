@@ -10,3 +10,6 @@
 [submodule "/home/alexander-zincke/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/CamelCaseMotion"]
 	path = /home/alexander-zincke/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/CamelCaseMotion
 	url = https://github.com/bkad/CamelCaseMotion.git
+[submodule "/home/alexander-zincke/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-airline"]
+	path = /home/alexander-zincke/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
