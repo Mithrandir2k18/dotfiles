@@ -1,21 +1,21 @@
-[submodule "$HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/taglist.vim"]
-	path = $HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/taglist.vim
+[submodule "vim/dot_vim/pack/Mithrandir2k18/start/taglist.vim"]
+	path = vim/dot_vim/pack/Mithrandir2k18/start/taglist.vim
 	url = https://github.com/vim-scripts/taglist.vim.git
-[submodule "$HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-surround"]
-	path = $HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-surround
+[submodule "vim/dot_vim/pack/Mithrandir2k18/start/vim-surround"]
+	path = vim/dot_vim/pack/Mithrandir2k18/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
-[submodule "$HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-repeat"]
-	path = $HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-repeat
+[submodule "vim/dot_vim/pack/Mithrandir2k18/start/vim-repeat"]
+	path = vim/dot_vim/pack/Mithrandir2k18/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
-[submodule "$HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/CamelCaseMotion"]
-	path = $HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/CamelCaseMotion
+[submodule "vim/dot_vim/pack/Mithrandir2k18/start/CamelCaseMotion"]
+	path = vim/dot_vim/pack/Mithrandir2k18/start/CamelCaseMotion
 	url = https://github.com/bkad/CamelCaseMotion.git
-[submodule "$HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-airline"]
-	path = $HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-airline
+[submodule "vim/dot_vim/pack/Mithrandir2k18/start/vim-airline"]
+	path = vim/dot_vim/pack/Mithrandir2k18/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
-[submodule "$HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-fugitive"]
-	path = $HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/vim-fugitive
+[submodule "vim/dot_vim/pack/Mithrandir2k18/start/vim-fugitive"]
+	path = vim/dot_vim/pack/Mithrandir2k18/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule "$HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/ctrlp.vim"]
-	path = $HOME/dotfiles/vim/dot_vim/pack/Mithrandir2k18/start/ctrlp.vim
+[submodule "vim/dot_vim/pack/Mithrandir2k18/start/ctrlp.vim"]
+	path = vim/dot_vim/pack/Mithrandir2k18/start/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim.git
