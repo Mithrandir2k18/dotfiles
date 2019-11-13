@@ -1,5 +1,5 @@
 [submodule "vim/dot_vim/pack/Mithrandir2k18/start/taglist.vim"]
-	path = vim/dot_vim/pack/Mithrandir2k18/start/taglist.vim
+	path = vim/dot_vim/pack/Mithrandir2k18/opt/taglist.vim
 	url = https://github.com/vim-scripts/taglist.vim.git
 [submodule "vim/dot_vim/pack/Mithrandir2k18/start/vim-surround"]
 	path = vim/dot_vim/pack/Mithrandir2k18/start/vim-surround
