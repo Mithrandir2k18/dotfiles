@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Installing dependencies..."
+# TODO install ctags, fonts-powerline, vim, curl, git platform independent
+
+ln -s $HOME/dotfiles/vim/dot_vim/dot_vimrc $HOME/.vimrc
+ln -s $HOME/dotfiles/vim/dot_vim $HOME/.vim
+
