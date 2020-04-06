@@ -1,8 +1,26 @@
 #!/bin/bash
 
 echo "Installing dependencies..."
-# TODO install ctags, fonts-powerline, vim, curl, git platform independent
 
+#Install platform independed package manager. Has pacman interface
+if [[ ! $(which pacman) ]]; then
+        echo "No pacman found. Installing pacapt as pacman!"
+        sudo wget -O /usr/local/bin/pacman https://github.com/icy/pacapt/raw/ng/pacapt
+        sudo chmod 755 /usr/local/bin/pacman
+        sudo ln -sv /usr/local/bin/pacman /usr/local/bin/pacman || true
+fi
+
+# Install dependencies
+sudo pacman -Sy
+sudo pacman -S curl
+sudo pacman -S git
+sudo pacman -S vim
+sudo pacman -S ctags
+sudo pacman -S fonts-powerline
+
+
+cd $HOME/dotfiles && git submodule update --init --recursive
 ln -s $HOME/dotfiles/vim/dot_vim/dot_vimrc $HOME/.vimrc
 ln -s $HOME/dotfiles/vim/dot_vim $HOME/.vim
+ln -s $HOME/dotfiles/vim/dot_vim/syntax/roslaunch/roslaunch.vim $HOME/dotfiles/vim/dot_vim/syntax/roslaunch.vim
 

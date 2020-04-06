@@ -22,3 +22,6 @@
 [submodule "vim/dot_vim/pack/Mithrandir2k18/start/vim-commentary"]
 	path = vim/dot_vim/pack/Mithrandir2k18/start/vim-commentary
 	url = https://github.com/tpope/vim-commentary.git
+[submodule "vim/dot_vim/syntax/roslaunch"]
+	path = vim/dot_vim/syntax/roslaunch
+	url = https://gist.github.com/5964014.git
