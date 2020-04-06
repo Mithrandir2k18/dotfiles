@@ -11,6 +11,7 @@ if [[ ! $(which pacman) ]]; then
 fi
 
 # Install dependencies
+echo "pacman/pacapt is installed as pacman. Installing dependencies!"
 sudo pacman -Sy
 sudo pacman -S curl
 sudo pacman -S git
