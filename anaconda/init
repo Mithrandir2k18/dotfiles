@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ln -s /home/$USER/dotfiles/anaconda/condarc /home/$USER/.condarc
+
