@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p /home/$USER/.config/qtile
+ln -sf /home/$USER/dotfiles/qtile/config.py /home/$USER/.config/qtile/config.py
