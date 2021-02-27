@@ -91,41 +91,45 @@ keys = [
 
 
 # rename groups if wanted
-# groups = [Group(i) for i in "asdfuiop"]
-# group_names = [("WWW", {'layout': 'monadtall'}),
-#                ("DEV", {'layout': 'monadtall'}),
-#                ("SYS", {'layout': 'monadtall'}),
-#                ("DOC", {'layout': 'monadtall'}),
-#                ("VBOX", {'layout': 'monadtall'}),
-#                ("CHAT", {'layout': 'monadtall'}),
-#                ("MUS", {'layout': 'monadtall'}),
-#                ("VID", {'layout': 'monadtall'}),
-#                ("GFX", {'layout': 'floating'})]
+groups = [Group(i) for i in "asdfuiop"]
+group_names = [
+    ("DEV", {'layout': 'monadcode'}),  # coding
+    ("COM", {'layout': 'monadtall'}),  # communication
+    ("DOC", {'layout': 'monadtall'}),  # writing
+    ("MUS", {'layout': 'monadtall'}),  # music
+    ("VID", {'layout': 'monadtall'}),  # video
+    ("SYS", {'layout': 'monadtall'}),  # sysadmin
+    ("VIR", {'layout': 'monadtall'}),  # virtualization
+    ("REM", {'layout': 'monadtall'}),  # remote
+    ("GFX", {'layout': 'floating'}),   # graphical
+]
 
-# groups = [Group(name, **kwargs) for name, kwargs in group_names]
+groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
-# for i, (name, kwargs) in enumerate(group_names, 1):
-#     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
-#     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
+for i, (name, kwargs) in enumerate(group_names, 1):
+    # Switch to another group
+    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))
+    # Send current window to another group
+    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))
 
 
 # default group behaviour
-groups = [Group(i) for i in "1234567890"]
+# groups = [Group(i) for i in "1234567890"]
 
-for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen(),
-            desc="Switch to group {}".format(i.name)),
+# for i in groups:
+#     keys.extend([
+#         # mod1 + letter of group = switch to group
+#         Key([mod], i.name, lazy.group[i.name].toscreen(),
+#             desc="Switch to group {}".format(i.name)),
 
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-            desc="Switch to & move focused window to group {}".format(i.name)),
-        # Or, use below if you prefer not to switch to that group.
-        # # mod1 + shift + letter of group = move focused window to group
-        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-        #     desc="move focused window to group {}".format(i.name)),
-    ])
+#         # mod1 + shift + letter of group = switch to & move focused window to group
+#         Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
+#             desc="Switch to & move focused window to group {}".format(i.name)),
+#         # Or, use below if you prefer not to switch to that group.
+#         # # mod1 + shift + letter of group = move focused window to group
+#         # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+#         #     desc="move focused window to group {}".format(i.name)),
+#     ])
 
 layout_theme = {"border_width": 2,
                 "margin": 6,
@@ -133,14 +137,46 @@ layout_theme = {"border_width": 2,
                 "border_normal": "1D2330"
                 }
 
+
 class MyStack(layout.Stack):
     """
-    Simply add left/right to stack so hjkl works similar to other layouts.
+    Simply add left/right to Stack so hjkl works similar to other layouts.
     """
+
     def cmd_left(self):
         self.cmd_previous()
+
     def cmd_right(self):
         self.cmd_next()
+
+    def cmd_shuffle_left(self):
+        # self.cmd_swap_left()
+        self.cmd_client_to_previous()
+
+    def cmd_shuffle_right(self):
+        self.cmd_client_to_next()
+
+    # TODO maybe implement swap left/right
+    def cmd_swap_left(self):
+        self.cmd_swap_clients(self.current_stack_offset - 1)
+
+    def cmd_swap_right(self):
+        self.cmd_swap_clients(self.current_stack_offset + 1)
+
+    def cmd_swap_clients(self, n):
+        # TODO not yet working, looses windows somehow it seems
+        if not self.current_stack:
+            return
+        target = n % len(self.stacks)  # id of target stack
+        curr_win = self.current_stack.cw
+        self.current_stack.remove(curr_win)
+        neighbor_win = self.stacks[target].cw
+        self.stacks[target].remove(neighbor_win)
+        self.current_stack.add(neighbor_win)
+        self.stacks[target].add(curr_win)
+        self.stacks[target].focus(curr_win)
+        self.group.layout_all()
+
 
 layouts = [
     layout.MonadTall(name="monadcode", ratio=0.75, align=1, **layout_theme),
@@ -167,30 +203,34 @@ widget_defaults = dict(
     fontsize=12,
     padding=3,
 )
+
+# This does nothing, I guess?
 extension_defaults = widget_defaults.copy()
+
+main_screen_widgets = [
+    widget.CurrentLayout(),
+    widget.GroupBox(),
+    widget.Prompt(),
+    widget.WindowName(),
+    widget.Chord(
+        chords_colors={
+            'launch': ("#ff0000", "#ffffff"),
+        },
+        name_transform=lambda name: name.upper(),
+    ),
+    widget.TextBox("default config", name="default"),
+    widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+    widget.Systray(),
+    widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
+    widget.QuickExit(),
+]
+
 
 screens = [
     Screen(
-        bottom=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        'launch': ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.TextBox("default config", name="default"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.QuickExit(),
-            ],
-            24,
-        ),
+        top=bar.Bar(main_screen_widgets,
+                    24,
+                    ),
     ),
 ]
 
@@ -209,18 +249,32 @@ main = None  # WARNING: this is deprecated and will be removed soon
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+
+
 floating_layout = layout.Floating(float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.
     *layout.Floating.default_float_rules,
+    Match(title='branchdialog'),  # gitk
+    Match(title='confirm'),
+    Match(title='confirmreset'),  # gitk
+    Match(title='dialog'),
+    Match(title='download'),
+    Match(title='error'),
+    Match(title='file_progress'),
+    Match(title='makebranch'),  # gitk
+    Match(title='maketag'),  # gitk
+    Match(title='notification'),
+    Match(title='pinentry'),  # GPG key password entry
+    Match(title='splash'),
+    Match(title='ssh-askpass'),  # ssh-askpass
+    Match(title='toolbar'),
     Match(wm_class='confirmreset'),  # gitk
     Match(wm_class='makebranch'),  # gitk
     Match(wm_class='maketag'),  # gitk
     Match(wm_class='ssh-askpass'),  # ssh-askpass
-    Match(title='branchdialog'),  # gitk
-    Match(title='pinentry'),  # GPG key password entry
 ])
-auto_fullscreen = True
-focus_on_window_activation = "smart"
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
