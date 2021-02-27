@@ -25,8 +25,9 @@
 # SOFTWARE.
 
 from typing import List  # noqa: F401
+import psutil
 
-from libqtile import bar, layout, widget
+from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -36,10 +37,22 @@ mod = "mod1"  # left-alt
 terminal = guess_terminal()
 
 
+# layout dependent functions
+def mod_h():
+    @lazy.function
+    def _inner(qtile):
+        if qtile.current_layout.name == "stack":
+            qtile.current_layout.cmd_previous()
+        else:
+            qtile.current_layout.left()
+
+    return _inner
+
 keys = [
     # Switch between windows
     Key([mod], "h",
-        lazy.layout.left(),
+        # lazy.layout.left(),
+        mod_h(),
         desc="Move focus to left"),
     Key([mod], "l",
         lazy.layout.right(),
@@ -90,18 +103,18 @@ keys = [
 ]
 
 
-# rename groups if wanted
+# rename groups, define default layouts
 groups = [Group(i) for i in "asdfuiop"]
 group_names = [
-    ("DEV", {'layout': 'monadcode'}),  # coding
-    ("COM", {'layout': 'monadtall'}),  # communication
-    ("DOC", {'layout': 'monadtall'}),  # writing
-    ("MUS", {'layout': 'monadtall'}),  # music
-    ("VID", {'layout': 'monadtall'}),  # video
-    ("SYS", {'layout': 'monadtall'}),  # sysadmin
-    ("VIR", {'layout': 'monadtall'}),  # virtualization
-    ("REM", {'layout': 'monadtall'}),  # remote
-    ("GFX", {'layout': 'floating'}),   # graphical
+    ("DEV", {"layout": "monadcode"}),  # coding
+    ("COM", {"layout": "monadtall"}),  # communication
+    ("DOC", {"layout": "monadtall"}),  # writing
+    ("MUS", {"layout": "fullstack"}),  # music
+    ("VID", {"layout": "fullstack"}),  # video
+    ("SYS", {"layout": "monadtall"}),  # sysadmin
+    ("VIR", {"layout": "monadtall"}),  # virtualization
+    ("REM", {"layout": "monadtall"}),  # remote
+    ("GFX", {"layout": "floating"}),   # graphical
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -112,24 +125,6 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     # Send current window to another group
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))
 
-
-# default group behaviour
-# groups = [Group(i) for i in "1234567890"]
-
-# for i in groups:
-#     keys.extend([
-#         # mod1 + letter of group = switch to group
-#         Key([mod], i.name, lazy.group[i.name].toscreen(),
-#             desc="Switch to group {}".format(i.name)),
-
-#         # mod1 + shift + letter of group = switch to & move focused window to group
-#         Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-#             desc="Switch to & move focused window to group {}".format(i.name)),
-#         # Or, use below if you prefer not to switch to that group.
-#         # # mod1 + shift + letter of group = move focused window to group
-#         # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-#         #     desc="move focused window to group {}".format(i.name)),
-#     ])
 
 layout_theme = {"border_width": 2,
                 "margin": 6,
@@ -149,6 +144,8 @@ class MyStack(layout.Stack):
     def cmd_right(self):
         self.cmd_next()
 
+    # TODO shuffle left/right sometimes causes graphical glitches
+    # TODO find a way to trigger a redraw of the entire screen
     def cmd_shuffle_left(self):
         # self.cmd_swap_left()
         self.cmd_client_to_previous()
@@ -168,9 +165,9 @@ class MyStack(layout.Stack):
         if not self.current_stack:
             return
         target = n % len(self.stacks)  # id of target stack
-        curr_win = self.current_stack.cw
+        curr_win = self.current_stack.current_client
         self.current_stack.remove(curr_win)
-        neighbor_win = self.stacks[target].cw
+        neighbor_win = self.stacks[target].current_client
         self.stacks[target].remove(neighbor_win)
         self.current_stack.add(neighbor_win)
         self.stacks[target].add(curr_win)
@@ -186,6 +183,7 @@ layouts = [
     layout.Floating(**layout_theme),
     layout.TreeTab(**layout_theme),
     layout.Matrix(**layout_theme),
+    # layout.Stack(name="stack", **layout_theme),
     # Try more layouts by unleashing below layouts.
     # layout.Columns(border_focus_stack='#d75f5f', **layout_theme),
     # layout.RatioTile(**layout_theme),
@@ -233,6 +231,32 @@ screens = [
                     ),
     ),
 ]
+
+# swallow processes spawned from temrinals
+@hook.subscribe.client_new
+def _swallow(window):
+    pid = window.window.get_net_wm_pid()
+    ppid = psutil.Process(pid).ppid()
+    cpids = {c.window.get_net_wm_pid(): wid for wid, c in window.qtile.windows_map.items()}
+    for i in range(5):
+        if not ppid:
+            return
+        if ppid in cpids:
+            parent = window.qtile.windows_map.get(cpids[ppid])
+            if parent.window.get_wm_class()[0] != terminal:
+                return
+            parent.minimized = True
+            window.parent = parent
+            return
+        ppid = psutil.Process(ppid).ppid()
+
+@hook.subscribe.client_killed
+def _unswallow(window):
+    if hasattr(window, 'parent'):
+        # TODO maybe add distinction here as well?
+        # check this if closing windows changes layouts weirdly
+        window.parent.minimized = False
+
 
 # Drag floating layouts.
 mouse = [
