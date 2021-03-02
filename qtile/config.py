@@ -26,6 +26,8 @@
 
 from typing import List  # noqa: F401
 import psutil
+import datetime
+import subprocess
 
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -48,11 +50,12 @@ def mod_h():
 
     return _inner
 
+
 keys = [
     # Switch between windows
     Key([mod], "h",
         # lazy.layout.left(),
-        mod_h(),
+        lazy.layout.left(),
         desc="Move focus to left"),
     Key([mod], "l",
         lazy.layout.right(),
@@ -100,6 +103,14 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
+
+    # Function key bindings TODO not working yet
+    # Key(["function"], "F10",
+    #     lambda:subprocess.call("amixer -q sset Master 5%-"),
+    #     desc="Reduce Master volume by 5%."),
+    # Key(["function"], "F11",
+    #     lambda:subprocess.call("amixer -q sset Master 5%+"),
+    #     desc="Increase Master volume by 5%."),
 ]
 
 
@@ -107,9 +118,9 @@ keys = [
 groups = [Group(i) for i in "asdfuiop"]
 group_names = [
     ("DEV", {"layout": "monadcode"}),  # coding
-    ("COM", {"layout": "monadtall"}),  # communication
+    ("COM", {"layout": "matrix"}),     # communication
     ("DOC", {"layout": "monadtall"}),  # writing
-    ("MUS", {"layout": "fullstack"}),  # music
+    ("MUS", {"layout": "matrix"}),     # music
     ("VID", {"layout": "fullstack"}),  # video
     ("SYS", {"layout": "monadtall"}),  # sysadmin
     ("VIR", {"layout": "monadtall"}),  # virtualization
@@ -206,21 +217,24 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 main_screen_widgets = [
-    widget.CurrentLayout(),
-    widget.GroupBox(),
-    widget.Prompt(),
-    widget.WindowName(),
+    widget.CurrentLayout(fmt="{:<9}", **widget_defaults),
+    widget.GroupBox(**widget_defaults),
+    widget.Prompt(**widget_defaults),
+    widget.WindowName(**widget_defaults),
     widget.Chord(
         chords_colors={
             'launch': ("#ff0000", "#ffffff"),
         },
         name_transform=lambda name: name.upper(),
     ),
-    widget.TextBox("default config", name="default"),
-    widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-    widget.Systray(),
-    widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-    widget.QuickExit(),
+    widget.Notify(**widget_defaults),
+    widget.Systray(**widget_defaults),
+    widget.Volume(
+        volume_app="pavucontrol",
+        **widget_defaults),
+    widget.Net(format='{down} ↓↑ {up}', **widget_defaults),
+    widget.Clock(format="%a %Y-%m-%d %H:%M:%S", **widget_defaults),
+    widget.QuickExit(**widget_defaults),
 ]
 
 
@@ -232,12 +246,13 @@ screens = [
     ),
 ]
 
-# swallow processes spawned from temrinals
+# swallow processes spawned from terminals
 @hook.subscribe.client_new
 def _swallow(window):
     pid = window.window.get_net_wm_pid()
     ppid = psutil.Process(pid).ppid()
-    cpids = {c.window.get_net_wm_pid(): wid for wid, c in window.qtile.windows_map.items()}
+    cpids = {c.window.get_net_wm_pid(): wid for wid,
+             c in window.qtile.windows_map.items()}
     for i in range(5):
         if not ppid:
             return
@@ -249,6 +264,7 @@ def _swallow(window):
             window.parent = parent
             return
         ppid = psutil.Process(ppid).ppid()
+
 
 @hook.subscribe.client_killed
 def _unswallow(window):
