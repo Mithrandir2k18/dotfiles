@@ -24,22 +24,71 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from typing import List  # noqa: F401
-import psutil
 import datetime
+import os
 import subprocess
+from typing import List  # noqa: F401
 
+import psutil
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from libqtile.log_utils import logger
 
 # mod = "mod4"  # left-super
 mod = "mod1"  # left-alt
 terminal = guess_terminal()
 
+# GNOME startup hook
+
+
+@hook.subscribe.startup
+def dbus_register():
+    id = os.environ.get('DESKTOP_AUTOSTART_ID')
+    if not id:
+        return
+    subprocess.Popen(['dbus-send',
+                      '--session',
+                      '--print-reply',
+                      '--dest=org.gnome.SessionManager',
+                      '/org/gnome/SessionManager',
+                      'org.gnome.SessionManager.RegisterClient',
+                      'string:qtile',
+                      'string:' + id])
+
+
+def get_num_monitors():
+    num_monitors = 0
+    try:
+        from Xlib import display as xdisplay
+        display = xdisplay.Display()
+        screen = display.screen()
+        resources = screen.root.xrandr_get_screen_resources()
+
+        for output in resources.outputs:
+            monitor = display.xrandr_get_output_info(
+                output, resources.config_timestamp)
+            preferred = False
+            if hasattr(monitor, "preferred"):
+                preferred = monitor.preferred
+            elif hasattr(monitor, "num_preferred"):
+                preferred = monitor.num_preferred
+            if preferred:
+                num_monitors += 1
+    except Exception as e:
+        # always setup at least one monitor
+        logger.exception(e)
+        return 1
+    else:
+        return num_monitors
+
+
+num_monitors = get_num_monitors()
 
 # layout dependent functions
+
+
 def mod_h():
     @lazy.function
     def _inner(qtile):
@@ -246,7 +295,22 @@ screens = [
     ),
 ]
 
+logger.warning("Num Monitors is "+str(num_monitors))
+
+if num_monitors > 1:
+    for m in range(num_monitors - 1):
+        screens.append(
+            Screen(
+                top=bar.Bar(
+                    main_screen_widgets,  # other screens widgets
+                    24,
+                ),
+            )
+        )
+
 # swallow processes spawned from terminals
+
+
 @hook.subscribe.client_new
 def _swallow(window):
     pid = window.window.get_net_wm_pid()
