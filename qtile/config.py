@@ -164,7 +164,7 @@ keys = [
 
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(),
+    Key([mod], "r", lazy.spawn("rofi -show run -icon-theme 'Hicolor' -show-icons"),
         desc="Spawn a command using a prompt widget"),
 
     # Function key bindings TODO not working yet
@@ -290,7 +290,7 @@ main_screen_widgets = [
         },
         name_transform=lambda name: name.upper(),
     ),
-    widget.Notify(**widget_defaults),
+    # widget.Notify(**widget_defaults),
     widget.Systray(**widget_defaults),
     widget.Volume(
         volume_app="pavucontrol",
