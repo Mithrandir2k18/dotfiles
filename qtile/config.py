@@ -36,8 +36,22 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.log_utils import logger
 
+try:
+    import yaml
+    with open(os.path.join(os.path.basename(__file__), "local_config.yaml")) as fp:
+        local_config = yaml.safe_load(fp)
+except Exception as e:
+    logger.warning("Local config could not be loaded, using defaults from dotfile!"+str(e))
+    local_config = {}
+
+def get_local_or_default_config(config: dict, key: str, default):
+    if key in config:
+        return config[key]
+    else:
+        return default
+
 # mod = "mod4"  # left-super
-mod = "mod1"  # left-alt
+mod = get_local_or_default_config(local_config, "mod", "mod1")  # left-alt
 terminal = guess_terminal()
 
 # GNOME startup hook
