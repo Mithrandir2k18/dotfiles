@@ -36,14 +36,27 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.log_utils import logger
 
-mod = "mod4"  # left-super
-# mod = "mod1"  # left-alt
+try:
+    import yaml
+    with open(os.path.join(os.path.basename(__file__), "local_config.yaml")) as fp:
+        local_config = yaml.safe_load(fp)
+except Exception as e:
+    logger.warning("Local config could not be loaded, using defaults from dotfile!"+str(e))
+    local_config = {}
+
+def get_local_or_default_config(config: dict, key: str, default):
+    if key in config:
+        return config[key]
+    else:
+        return default
+
+# mod = "mod4"  # left-super
+mod = get_local_or_default_config(local_config, "mod", "mod1")  # left-alt
 # terminal = guess_terminal()
 terminal = "kitty"
 
+
 # GNOME startup hook
-
-
 @hook.subscribe.startup
 def dbus_register():
     id = os.environ.get('DESKTOP_AUTOSTART_ID')
@@ -151,7 +164,7 @@ keys = [
 
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(),
+    Key([mod], "r", lazy.spawn("rofi -show run -icon-theme 'Hicolor' -show-icons"),
         desc="Spawn a command using a prompt widget"),
 
     # Function key bindings TODO not working yet
@@ -278,7 +291,7 @@ main_screen_widgets = [
         },
         name_transform=lambda name: name.upper(),
     ),
-    widget.Notify(**widget_defaults),
+    # widget.Notify(**widget_defaults),
     widget.Systray(**widget_defaults),
     widget.Volume(
         volume_app="pavucontrol",
