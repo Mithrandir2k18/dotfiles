@@ -36,9 +36,10 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.log_utils import logger
 
-# mod = "mod4"  # left-super
-mod = "mod1"  # left-alt
-terminal = guess_terminal()
+mod = "mod4"  # left-super
+# mod = "mod1"  # left-alt
+# terminal = guess_terminal()
+terminal = "kitty"
 
 # GNOME startup hook
 
@@ -167,7 +168,8 @@ keys = [
 groups = [Group(i) for i in "asdfuiop"]
 group_names = [
     ("DEV", {"layout": "monadcode"}),  # coding
-    ("COM", {"layout": "matrix"}),     # communication
+    ("COM", {"layout": "matrix",
+        "spawn": ["discord", "signal-desktop"]}),     # communication
     ("DOC", {"layout": "monadtall"}),  # writing
     ("MUS", {"layout": "matrix"}),     # music
     ("VID", {"layout": "fullstack"}),  # video

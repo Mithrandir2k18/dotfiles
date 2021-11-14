@@ -21,7 +21,7 @@ sudo pacman -S fonts-powerline
 
 
 cd $HOME/dotfiles && git submodule update --init --recursive
-ln -s $HOME/dotfiles/vim/dot_vim/dot_vimrc $HOME/.vimrc
-ln -s $HOME/dotfiles/vim/dot_vim $HOME/.vim
-ln -s $HOME/dotfiles/vim/dot_vim/syntax/roslaunch/roslaunch.vim $HOME/dotfiles/vim/dot_vim/syntax/roslaunch.vim
+ln -sf $HOME/dotfiles/vim/dot_vim/dot_vimrc $HOME/.vimrc
+ln -sf $HOME/dotfiles/vim/dot_vim $HOME/.vim
+ln -sf $HOME/dotfiles/vim/dot_vim/syntax/roslaunch/roslaunch.vim $HOME/dotfiles/vim/dot_vim/syntax/roslaunch.vim
 
