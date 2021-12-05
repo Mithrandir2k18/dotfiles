@@ -296,7 +296,7 @@ main_screen_widgets = [
     widget.Volume(
         volume_app="pavucontrol",
         **widget_defaults),
-    widget.Net(format='{down} ↓↑ {up}', **widget_defaults),
+    widget.Net(format='{up} ↑↓ {down}', **widget_defaults),
     widget.Clock(format="%a %Y-%m-%d %H:%M:%S", **widget_defaults),
     widget.QuickExit(**widget_defaults),
 ]
