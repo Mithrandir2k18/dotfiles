@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p /home/$USER/.config/kitty
+ln -sf /home/$USER/dotfiles/kitty/kitty.conf /home/$USER/.config/kitty/kitty.conf
