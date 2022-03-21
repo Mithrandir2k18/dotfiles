@@ -1,4 +1,5 @@
 #!/bin/bash
 
+mkdir -p $HOME/.config/nvim/
 ln -sf $HOME/dotfiles/neovim/init.vim $HOME/.config/nvim/init.vim
 
