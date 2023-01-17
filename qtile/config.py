@@ -72,52 +72,16 @@ def dbus_register():
                       'string:' + id])
 
 
-def get_num_monitors():
-    num_monitors = 0
-    try:
-        from Xlib import display as xdisplay
-        display = xdisplay.Display()
-        screen = display.screen()
-        resources = screen.root.xrandr_get_screen_resources()
-
-        for output in resources.outputs:
-            monitor = display.xrandr_get_output_info(
-                output, resources.config_timestamp)
-            preferred = False
-            if hasattr(monitor, "preferred"):
-                preferred = monitor.preferred
-            elif hasattr(monitor, "num_preferred"):
-                preferred = monitor.num_preferred
-            if preferred:
-                num_monitors += 1
-    except Exception as e:
-        # always setup at least one monitor
-        logger.exception(e)
-        return 1
-    else:
-        return num_monitors
-
-
-num_monitors = get_num_monitors()
 
 # layout dependent functions
 
 
-def mod_h():
-    @lazy.function
-    def _inner(qtile):
-        if qtile.current_layout.name == "stack":
-            qtile.current_layout.cmd_previous()
-        else:
-            qtile.current_layout.left()
-
-    return _inner
 
 
+# key mappings
 keys = [
     # Switch between windows
     Key([mod], "h",
-        # lazy.layout.left(),
         lazy.layout.left(),
         desc="Move focus to left"),
     Key([mod], "l",
@@ -159,6 +123,7 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod, "shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
     # default for kill is 'w' but q is the default in i3 and q for quit reasonable
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
 
@@ -178,7 +143,6 @@ keys = [
 
 
 # rename groups, define default layouts
-groups = [Group(i) for i in "asdfuiop"]
 group_names = [
     ("DEV", {"layout": "monadcode"}),  # coding
     ("COM", {"layout": "matrix",
@@ -194,6 +158,7 @@ group_names = [
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
+# add keybinds to switch view and send windows to a group by its id
 for i, (name, kwargs) in enumerate(group_names, 1):
     # Switch to another group
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))
@@ -201,6 +166,7 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))
 
 
+# default theme for layouts
 layout_theme = {"border_width": 2,
                 "margin": 6,
                 "border_focus": "e1acff",
@@ -236,7 +202,7 @@ class MyStack(layout.Stack):
         self.cmd_swap_clients(self.current_stack_offset + 1)
 
     def cmd_swap_clients(self, n):
-        # TODO not yet working, looses windows somehow it seems
+        # TODO not yet working, loses windows somehow it seems
         if not self.current_stack:
             return
         target = n % len(self.stacks)  # id of target stack
@@ -253,13 +219,13 @@ class MyStack(layout.Stack):
 layouts = [
     layout.MonadTall(name="monadcode", ratio=0.75, align=1, **layout_theme),
     MyStack(name="stack", num_stacks=3, **layout_theme),
-    MyStack(num_stacks=1, name="fullstack", **layout_theme),
+    MyStack(name="fullstack", num_stacks=1, **layout_theme),
     layout.MonadTall(**layout_theme),
     layout.Floating(**layout_theme),
-    layout.TreeTab(**layout_theme),
     layout.Matrix(**layout_theme),
+    # Try more layouts by uncommenting below layouts.
+    # layout.TreeTab(**layout_theme),
     # layout.Stack(name="stack", **layout_theme),
-    # Try more layouts by unleashing below layouts.
     # layout.Columns(border_focus_stack='#d75f5f', **layout_theme),
     # layout.RatioTile(**layout_theme),
     # layout.Max(**layout_theme),
@@ -272,58 +238,69 @@ layouts = [
 
 widget_defaults = dict(
     font='DejaVu Sans Mono',
-    # font='DejaVu Serif',
     fontsize=12,
     padding=3,
 )
 
-# This does nothing, I guess?
-extension_defaults = widget_defaults.copy()
+def get_num_monitors():
+    num_monitors = 0
+    try:
+        from Xlib import display as xdisplay
+        display = xdisplay.Display()
+        screen = display.screen()
+        resources = screen.root.xrandr_get_screen_resources()
 
-main_screen_widgets = [
-    widget.CurrentLayout(fmt="{:<9}", **widget_defaults),
-    widget.GroupBox(**widget_defaults),
-    widget.Prompt(**widget_defaults),
-    widget.WindowName(**widget_defaults),
-    widget.Chord(
-        chords_colors={
-            'launch': ("#ff0000", "#ffffff"),
-        },
-        name_transform=lambda name: name.upper(),
-    ),
-    # widget.Notify(**widget_defaults),
-    widget.Systray(**widget_defaults),
-    widget.Volume(
-        volume_app="pavucontrol",
-        **widget_defaults),
-    widget.Net(format='{up} ↑↓ {down}', **widget_defaults),
-    widget.Clock(format="%a %Y-%m-%d %H:%M:%S", **widget_defaults),
-    widget.QuickExit(**widget_defaults),
-]
+        for output in resources.outputs:
+            monitor = display.xrandr_get_output_info(
+                output, resources.config_timestamp)
+            preferred = False
+            if hasattr(monitor, "preferred"):
+                preferred = monitor.preferred
+            elif hasattr(monitor, "num_preferred"):
+                preferred = monitor.num_preferred
+            if preferred:
+                num_monitors += 1
+    except Exception as e:
+        # always setup at least one monitor
+        logger.exception(e)
+        return 1
+    else:
+        return num_monitors
 
 
-screens = [
-    Screen(
-        top=bar.Bar(main_screen_widgets,
-                    24,
-                    ),
-    ),
-]
+num_monitors = get_num_monitors()
 
-logger.warning("Num Monitors is "+str(num_monitors))
+def create_default_main_screen_widgets(screen_id:int):
+    main_screen_widgets = [
+        widget.CurrentLayout(fmt="{:<9}", **widget_defaults),
+        widget.GroupBox(**widget_defaults),
+        widget.Prompt(**widget_defaults),
+        widget.WindowName(**widget_defaults),
+        widget.Chord(
+            chords_colors={
+                'launch': ("#ff0000", "#ffffff"),
+            },
+            name_transform=lambda name: name.upper(),
+        ),
+        # widget.Notify(**widget_defaults),
+        ]
+    if num_monitors == 1 or (num_monitors > 1 and screen_id == 1):
+        # can only have one systray
+        main_screen_widgets.append(widget.Systray(**widget_defaults))
+    main_screen_widgets += [
+        widget.Volume(
+            volume_app="pavucontrol",
+            **widget_defaults),
+        widget.Net(format='{up} ↑↓ {down}', **widget_defaults),
+        widget.Clock(format="%a %Y-%m-%d %H:%M:%S", **widget_defaults),
+        widget.QuickExit(**widget_defaults),
+    ]
 
-if num_monitors > 1:
-    for m in range(num_monitors - 1):
-        screens.append(
-            Screen(
-                top=bar.Bar(
-                    main_screen_widgets,  # other screens widgets
-                    24,
-                ),
-            )
-        )
+    return main_screen_widgets
 
-# swallow processes spawned from terminals
+
+logger.info(f"Num Monitors is {num_monitors}!")
+screens = [Screen(top=bar.Bar(create_default_main_screen_widgets(i), 24,),) for i in range(num_monitors)]
 
 
 @hook.subscribe.client_new
