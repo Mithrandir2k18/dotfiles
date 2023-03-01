@@ -22,8 +22,9 @@ set nolist " list disables linebreak. Then wraps happen on a character, not a wo
 set ignorecase " set ignorecase ignores case when searching
 
 
-" TODO colorscheme
+" set colorscheme
 colo desert
+colo ir_black
 
 syntax on " enable syntax processing
 set tabstop=4 " visual amount of spaces per tab
