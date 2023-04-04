@@ -218,11 +218,11 @@ class MyStack(layout.Stack):
 
 layouts = [
     layout.MonadTall(name="monadcode", ratio=0.75, align=1, **layout_theme),
-    MyStack(name="stack", num_stacks=3, **layout_theme),
-    MyStack(name="fullstack", num_stacks=1, **layout_theme),
     layout.MonadTall(**layout_theme),
-    layout.Floating(**layout_theme),
+    MyStack(name="stack", num_stacks=3, **layout_theme),
     layout.Matrix(**layout_theme),
+    MyStack(name="fullstack", num_stacks=1, **layout_theme),
+    layout.Floating(**layout_theme),
     # Try more layouts by uncommenting below layouts.
     # layout.TreeTab(**layout_theme),
     # layout.Stack(name="stack", **layout_theme),
