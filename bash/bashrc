@@ -46,3 +46,11 @@ pyenv() {
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
 # END_KITTY_SHELL_INTEGRATION
+
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+
+alias k=kubectl
+complete -o default -F __start_kubectl k
+
+eval "$(direnv hook bash)"
+
