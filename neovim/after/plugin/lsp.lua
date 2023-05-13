@@ -3,9 +3,8 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-    'tsserver',
-    'rust_analyzer',
     'lua_ls',
+    'pylsp'
 })
 
 -- Fix Undefined global 'vim'
@@ -62,8 +61,9 @@ vim.diagnostic.config({
 })
 
 -- LSP configurations
+local lspconfig = require('lspconfig')
 -- lua
-require 'lspconfig'.lua_ls.setup {
+lspconfig.lua_ls.setup {
     settings = {
         Lua = {
             runtime = {
@@ -86,4 +86,20 @@ require 'lspconfig'.lua_ls.setup {
     },
 }
 
-require 'lspconfig'.pyright.setup {}
+-- lspconfig.pyright.setup {}
+
+lspconfig.pylsp.setup {
+    settings = {
+        pylsp = {
+            pycodestyle = {
+                ignore = { 'E501'},
+                maxLineLength = 120
+            }
+        },
+        plugins = {
+            flake8 = {
+                enabled = true
+            }
+        }
+    }
+}

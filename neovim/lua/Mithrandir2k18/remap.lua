@@ -16,7 +16,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 -- ...when using search
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
--- remove previously highlighted search
+-- clear previously highlighted search
 vim.keymap.set("n", "<leader>nf", "<cmd>nohlsearch<CR>")
 
 --- without changing buffer
