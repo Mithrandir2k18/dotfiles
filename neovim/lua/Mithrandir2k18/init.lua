@@ -1,5 +1,6 @@
 require("Mithrandir2k18.set")
 require("Mithrandir2k18.remap")
+require("Mithrandir2k18.plugins")
 
 local augroup = vim.api.nvim_create_augroup
 local Mithrandir2k18Group = augroup('Mithrandir2k18', {})

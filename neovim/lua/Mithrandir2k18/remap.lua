@@ -41,6 +41,9 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 -- reformat file
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
+-- toggle commandline height
+vim.keymap.set("n", "<leader>tc", function() vim.o.cmdheight = (vim.o.cmdheight + 1) % 2 end)
+
 -- quickfix (trouble) navigation
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
@@ -53,8 +56,8 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 -- make current file executeable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- open packer file
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/dotfiles/neovim/lua/Mithrandir2k18/packer.lua<CR>");
+-- open plugins file (managed with lazy)
+vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/dotfiles/neovim/lua/Mithrandir2k18/plugins.lua<CR>");
 
 -- shoutout(reload) current file (for reloading neovim config files)
 vim.keymap.set("n", "<leader><leader>", function()
