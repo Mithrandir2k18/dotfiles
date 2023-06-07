@@ -4,7 +4,11 @@ lsp.preset("recommended")
 
 lsp.ensure_installed({
     'lua_ls',
-    'pylsp'
+    'pylsp',
+    'black',
+    'mypy',
+    'ruff',
+    'debugpy',
 })
 
 -- Fix Undefined global 'vim'
@@ -92,7 +96,7 @@ lspconfig.pylsp.setup {
     settings = {
         pylsp = {
             pycodestyle = {
-                ignore = { 'E501'},
+                ignore = { 'E501' },
                 maxLineLength = 120
             }
         },

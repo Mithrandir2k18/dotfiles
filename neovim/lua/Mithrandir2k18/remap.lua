@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 -- open file explorer
-vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
+-- vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
 
 -- move blocks of code in visual mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")

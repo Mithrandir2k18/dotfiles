@@ -27,9 +27,45 @@ local plugins = {
     "folke/zen-mode.nvim",
     "laytan/cloak.nvim",
     {
+        "rcarriga/nvim-dap-ui",
+        dependencies = { "mfussenegger/nvim-dap" },
+        config = function()
+            local dap, dapui = require("dap"), require("dapui")
+            dap.listeners.after.event_initialized["dapui_config"] = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated["dapui_config"] = function()
+                dapui.close()
+            end
+            dap.listeners.before.event_exited["dapui_config"] = function()
+                dapui.close()
+            end
+        end
+    },
+    {
+        "mfussenegger/nvim-dap-python",
+        dependencies = {
+            { "mfussenegger/nvim-dap" },
+            { "rcarriga/nvim-dap-ui" },
+        },
+        ft = "python",
+        config = function(_, _)
+            local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
+            require("dap-python").setup(path)
+        end,
+    },
+    {
+        'stevearc/oil.nvim',
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+    {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.0',
-        dependencies = { { 'nvim-lua/plenary.nvim' } }
+        dependencies = { 'nvim-lua/plenary.nvim' }
+    },
+    {
+        'jose-elias-alvarez/null-ls.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' }
     },
     {
         'Mofiqul/vscode.nvim',
