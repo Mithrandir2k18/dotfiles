@@ -5,10 +5,6 @@ lsp.preset("recommended")
 lsp.ensure_installed({
     'lua_ls',
     'pylsp',
-    'black',
-    'mypy',
-    'ruff',
-    'debugpy',
 })
 
 -- Fix Undefined global 'vim'

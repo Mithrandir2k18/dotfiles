@@ -54,3 +54,5 @@ complete -o default -F __start_kubectl k
 
 eval "$(direnv hook bash)"
 
+export PATH=$PATH:$HOME/.cargo/bin
+
