@@ -1,5 +1,7 @@
 vim.opt.guicursor = "" -- set block-cursor
 
+-- set cursor to block always
+vim.opt.guicursor = "n-v-c-i:block"
 -- set relative number line
 vim.opt.number = true
 vim.opt.relativenumber = true

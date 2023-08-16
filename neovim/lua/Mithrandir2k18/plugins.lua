@@ -55,6 +55,13 @@ local plugins = {
         end,
     },
     {
+        "danymat/neogen",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        config = true,
+        -- Uncomment next line if you want to follow only stable versions
+        version = "*"
+    },
+    {
         'stevearc/oil.nvim',
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
@@ -103,6 +110,19 @@ local plugins = {
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons', lazy = true }
+    },
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+        end,
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        }
     },
     {
         'VonHeikemen/lsp-zero.nvim',

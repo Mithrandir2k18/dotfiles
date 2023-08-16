@@ -1,9 +1,8 @@
-
 vim.keymap.set("n", "<leader>zz", function()
     require("zen-mode").setup {
         window = {
             width = 90,
-            options = { }
+            options = {}
         },
     }
     require("zen-mode").toggle()
@@ -11,14 +10,14 @@ vim.keymap.set("n", "<leader>zz", function()
     vim.wo.number = true
     vim.wo.rnu = true
     CustomizeColorScheme()
-end)
+end, { desc = "Toggle Zen mode" })
 
 
 vim.keymap.set("n", "<leader>zZ", function()
     require("zen-mode").setup {
         window = {
             width = 80,
-            options = { }
+            options = {}
         },
     }
     require("zen-mode").toggle()
@@ -27,4 +26,4 @@ vim.keymap.set("n", "<leader>zZ", function()
     vim.wo.rnu = false
     vim.opt.colorcolumn = "0"
     CustomizeColorScheme()
-end)
+end, { desc = "Toggle Zen mode, without linenumbers" })
