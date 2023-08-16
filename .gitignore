@@ -303,4 +303,5 @@ zsdoc/data
 **/undodir/**
 **/packer_compiled.lua
 **/.luarc.json
+**/nushell/history.txt
 

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -rf $HOME/.config/nushell
+ln -s $HOME/dotfiles/nushell $HOME/.config/nushell
+
