@@ -71,6 +71,17 @@ local plugins = {
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
     {
+      "folke/noice.nvim",
+      event = "VeryLazy",
+      opts = {
+        -- add any options here
+      },
+      dependencies = {
+        "MunifTanjim/nui.nvim",
+        "rcarriga/nvim-notify",
+        }
+    },
+    {
         'jose-elias-alvarez/null-ls.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
@@ -124,6 +135,18 @@ local plugins = {
             -- refer to the configuration section below
         }
     },
+    -- {
+    --     "m4xshen/hardtime.nvim",
+    --     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    --     event = "VeryLazy",
+    --     opts = {
+    --             disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "cmake_tools_terminal", "terminal",
+    --                 "dashboard", "dapui_stacks", "dapui_console", "dapui-repl", "dapui_watches", "dapui_breakpoints",
+    --                 "TelescopePrompt"},
+    --             disable_mouse = false,
+    --             enabled = false,
+    --         }
+    -- },
     {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v1.x',

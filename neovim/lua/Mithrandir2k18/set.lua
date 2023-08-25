@@ -6,6 +6,8 @@ vim.opt.guicursor = "n-v-c-i:block"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+vim.opt.textwidth = 88
+
 -- set tabs
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
