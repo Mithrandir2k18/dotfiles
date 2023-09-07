@@ -550,3 +550,7 @@ source ~/.cache/zoxide/init.nu
 alias task = go-task
 alias tmux = tmux -2
 
+def sshagent [] {
+  ssh-agent -c | lines | first 2 | parse "setenv {name} {value};" | transpose -r | into record | load-env;
+}
+
