@@ -17,6 +17,7 @@ local plugins = {
     "theprimeagen/harpoon",
     "theprimeagen/refactoring.nvim",
     "mbbill/undotree",
+    { "alexghergh/nvim-tmux-navigation", lazy = false },
     "tpope/vim-fugitive",
     "tpope/vim-surround",
     "tpope/vim-repeat",
@@ -71,14 +72,14 @@ local plugins = {
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
     {
-      "folke/noice.nvim",
-      event = "VeryLazy",
-      opts = {
-        -- add any options here
-      },
-      dependencies = {
-        "MunifTanjim/nui.nvim",
-        "rcarriga/nvim-notify",
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        opts = {
+            -- add any options here
+        },
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "rcarriga/nvim-notify",
         }
     },
     {
