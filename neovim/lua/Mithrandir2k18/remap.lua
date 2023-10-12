@@ -17,7 +17,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result" })
 -- clear previously highlighted search
-vim.keymap.set("n", "<leader>nf", "<cmd>nohlsearch<CR>", { desc = "Clear search highlighting" })
+vim.keymap.set("n", "<leader>/", "<cmd>nohlsearch<CR>", { desc = "Clear search highlighting" })
 
 --- without changing buffer
 -- ...when pasting
