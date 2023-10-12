@@ -17,7 +17,6 @@ local plugins = {
     "theprimeagen/harpoon",
     "theprimeagen/refactoring.nvim",
     "mbbill/undotree",
-    { "alexghergh/nvim-tmux-navigation", lazy = false },
     "tpope/vim-fugitive",
     "tpope/vim-surround",
     "tpope/vim-repeat",
@@ -68,7 +67,7 @@ local plugins = {
     },
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.0',
+        tag = '0.1.4',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
     {
