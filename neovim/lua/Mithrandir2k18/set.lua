@@ -25,6 +25,7 @@ vim.opt.undofile = true
 -- configure search
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
+vim.opt.ignorecase = true
 
 vim.opt.termguicolors = true
 
