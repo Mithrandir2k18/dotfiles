@@ -82,10 +82,6 @@ local plugins = {
         }
     },
     {
-        'jose-elias-alvarez/null-ls.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' }
-    },
-    {
         'Mofiqul/vscode.nvim',
         config = function()
             vim.cmd('colorscheme vscode')
@@ -147,27 +143,55 @@ local plugins = {
     --             enabled = false,
     --         }
     -- },
+    -- {
+    --     'VonHeikemen/lsp-zero.nvim',
+    --     branch = 'v1.x',
+    --     dependencies = {
+    --         -- LSP Support
+    --         { 'neovim/nvim-lspconfig' },
+    --         { 'williamboman/mason.nvim' },
+    --         { 'williamboman/mason-lspconfig.nvim' },
+
+    --         -- Autocompletion
+    --         { 'hrsh7th/nvim-cmp' },
+    --         { 'hrsh7th/cmp-buffer' },
+    --         { 'hrsh7th/cmp-path' },
+    --         { 'saadparwaiz1/cmp_luasnip' },
+    --         { 'hrsh7th/cmp-nvim-lsp' },
+    --         { 'hrsh7th/cmp-nvim-lua' },
+
+    --         -- Snippets
+    --         { 'L3MON4D3/LuaSnip' },
+    --         { 'rafamadriz/friendly-snippets' },
+    --     }
+    -- },
+    -- Mason: LSP Package Manager
+    { 'williamboman/mason.nvim' },
+    { 'williamboman/mason-lspconfig.nvim' },
     {
         'VonHeikemen/lsp-zero.nvim',
-        branch = 'v1.x',
+        branch = 'v3.x',
+        lazy = true,
+        config = false,
+    },
+    -- LSP Support
+    {
+        'neovim/nvim-lspconfig',
         dependencies = {
-            -- LSP Support
-            { 'neovim/nvim-lspconfig' },
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-
-            -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },
-            { 'hrsh7th/cmp-buffer' },
-            { 'hrsh7th/cmp-path' },
-            { 'saadparwaiz1/cmp_luasnip' },
             { 'hrsh7th/cmp-nvim-lsp' },
-            { 'hrsh7th/cmp-nvim-lua' },
-
-            -- Snippets
-            { 'L3MON4D3/LuaSnip' },
-            { 'rafamadriz/friendly-snippets' },
         }
+    },
+    -- Autocompletion
+    {
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            { 'L3MON4D3/LuaSnip' },
+            { 'hrsh7th/cmp-buffer' },
+            -- { 'hrsh7th/cmp-path' },
+            { 'FelipeLema/cmp-async-path' },
+            { 'saadparwaiz1/cmp_luasnip' },
+            { 'hrsh7th/cmp-nvim-lua' },
+        },
     },
 }
 
