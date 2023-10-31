@@ -60,12 +60,10 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executeable" })
 
 -- open plugins file (managed with lazy)
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/dotfiles/neovim/lua/Mithrandir2k18/plugins.lua<CR>",{desc="Open plugins file"});
+vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/dotfiles/neovim/lua/Mithrandir2k18/plugins.lua<CR>",
+    { desc = "Open plugins file" });
 
 -- shoutout(reload) current file (for reloading neovim config files)
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
-end,{desc="Shoutout current file to neovim"})
-
--- overwrite buffer into current non-writeable file using sudo (with a plugin)
-vim.keymap.set("c", "w!!", "SudaWrite",{desc="Write write-protected file"})
+end, { desc = "Shoutout current file to neovim" })
