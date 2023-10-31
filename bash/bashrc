@@ -17,6 +17,9 @@ alias grun='java org.antlr.v4.gui.TestRig'
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/sdks/flutter/bin
 
+# set XDG directories
+export $(envsubst < $HOME/dotfiles/dot_env)
+
 alias tmux='tmux -2'
 
 export PYENV_ROOT="$HOME/.pyenv"
