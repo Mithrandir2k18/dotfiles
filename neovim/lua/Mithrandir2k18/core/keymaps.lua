@@ -39,8 +39,8 @@ vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>",
     { desc = "Find project and open in tmux session" })
 
--- reformat file
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format file" })
+-- reformat file (see formatting.lua)
+-- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format file" })
 
 -- toggle commandline height
 vim.keymap.set("n", "<leader>tc", function() vim.o.cmdheight = (vim.o.cmdheight + 1) % 2 end,
