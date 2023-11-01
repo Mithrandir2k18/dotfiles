@@ -89,9 +89,13 @@ return {
 					args = {},
 				},
 			},
+			capabilities = capabilities,
+			on_attach = on_attach,
 		})
 
 		lspconfig["pylsp"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
 			settings = {
 				pylsp = {
 					plugins = {
@@ -141,7 +145,7 @@ return {
 							-- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
 							-- [vim.fn.stdpath("config") .. "/lua"] = true,
 							library = vim.api.nvim_get_runtime_file("", true),
-							checkThirdParty = false,
+							checkThirdParty = true,
 						},
 					},
 					telemetry = {
