@@ -1,3 +1,4 @@
+vim.keymap.set("n", "<space>", "<NOP>")
 vim.g.mapleader = " "
 -- open file explorer
 -- vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
