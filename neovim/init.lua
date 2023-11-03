@@ -1,3 +1,3 @@
-require("Mithrandir2k18.core")
-require("Mithrandir2k18.plugin-manager")
+require("core")
+require("plugin-manager")
 

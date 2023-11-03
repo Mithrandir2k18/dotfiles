@@ -12,7 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local plugin_sources = { { import = "Mithrandir2k18.plugins" }, { import = "Mithrandir2k18.plugins.lsp" } }
+local plugin_sources = { { import = "plugins" }, { import = "plugins.lsp" } }
 local options = {
     install = {
         colorscheme = { "nightfly" },
