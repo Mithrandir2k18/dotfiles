@@ -77,11 +77,11 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		-- -- configure python server
-		-- lspconfig["pyright"].setup({
-		--   capabilities = capabilities,
-		--   on_attach = on_attach,
-		-- })
+		lspconfig["clangd"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
 		lspconfig["ruff_lsp"].setup({
 			init_options = {
 				settings = {
