@@ -6,6 +6,7 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		"ray-x/lsp_signature.nvim",
+        { "RaafatTurki/corn.nvim" }
 	},
 	config = function()
 		-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -72,6 +73,7 @@ return {
 				noice = true, -- set to true if you using noice to render markdown
 				floating_window = false,
 			}, bufnr)
+            require("corn").setup()
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
