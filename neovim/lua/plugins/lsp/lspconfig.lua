@@ -5,6 +5,7 @@ return {
 		"folke/neodev.nvim",
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
+		"ray-x/lsp_signature.nvim",
 	},
 	config = function()
 		-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -61,9 +62,17 @@ return {
 			keymap.set("n", "K", vim.lsp.buf.hover, opts)
 
 			opts.desc = "Restart LSP"
-			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) --
+			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+
 			opts["desc"] = "Signature Help"
 			keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+
+
+			require("lsp_signature").on_attach({
+				bind = false, -- Set to false, I use this for the virtual-text only
+				noice = true, -- set to true if you using noice to render markdown
+				floating_window = false,
+			}, bufnr)
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
@@ -146,7 +155,7 @@ return {
 							-- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
 							-- [vim.fn.stdpath("config") .. "/lua"] = true,
 							library = vim.api.nvim_get_runtime_file("", true),
-							checkThirdParty = true,
+							checkThirdParty = false,
 						},
 					},
 					telemetry = {

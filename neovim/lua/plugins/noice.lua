@@ -49,5 +49,7 @@ return {
 		vim.keymap.set("n", "<leader>nd", function()
 			noice.cmd("dismiss")
 		end, { desc = "Noice: dismiss all messages" })
+
+		require("telescope").load_extension("noice")
 	end,
 }
