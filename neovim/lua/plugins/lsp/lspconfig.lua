@@ -67,7 +67,6 @@ return {
 			opts["desc"] = "Signature Help"
 			keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
 
-
 			require("lsp_signature").on_attach({
 				bind = false, -- Set to false, I use this for the virtual-text only
 				noice = true, -- set to true if you using noice to render markdown
