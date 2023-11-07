@@ -296,9 +296,10 @@ def create_default_main_screen_widgets(screen_id: int):
     if num_monitors == 1 or (num_monitors > 1 and screen_id == 1):
         # can only have one systray
         main_screen_widgets.append(widget.Systray(**widget_defaults))
+
     main_screen_widgets += [
         widget.Volume(volume_app="pavucontrol", **widget_defaults),
-        widget.Net(format="{up}{up_suffix} ↑↓ {down}{down_suffix}", **widget_defaults),
+        widget.Net(format="{up:6.2f}{up_suffix:>2} ↑↓ {down:6.2f}{down_suffix:>2}", **widget_defaults),
         widget.Clock(format="%a %Y-%m-%d %H:%M:%S", **widget_defaults),
         widget.QuickExit(**widget_defaults),
     ]
