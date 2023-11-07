@@ -18,6 +18,8 @@ return {
 			builtin.grep_string({ search = vim.fn.input("Grep > ") }, { desc = "Grep through all files in project" })
 		end)
 		vim.keymap.set("n", "<leader>vh", builtin.help_tags, { desc = "Search help tags" })
+		vim.keymap.set("n", "<leader>km", builtin.keymaps, { desc = "Search keymaps" })
+		vim.keymap.set("n", "<leader>kmc", builtin.commands, { desc = "Search command keymaps" })
 		require("telescope").setup({
 			extensions = {
 				undo = {
