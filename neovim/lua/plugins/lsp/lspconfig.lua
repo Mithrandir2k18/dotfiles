@@ -6,7 +6,7 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		"ray-x/lsp_signature.nvim",
-        { "RaafatTurki/corn.nvim" }
+		{ "RaafatTurki/corn.nvim" },
 	},
 	config = function()
 		-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -73,14 +73,14 @@ return {
 				noice = true, -- set to true if you using noice to render markdown
 				floating_window = false,
 			}, bufnr)
-            require("corn").setup()
+
+			require("corn").setup()
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
-		-- (not in youtube nvim video)
 		-- local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
 		local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
 		for type, icon in pairs(signs) do
@@ -93,27 +93,30 @@ return {
 			on_attach = on_attach,
 		})
 
-		lspconfig["ruff_lsp"].setup({
-			init_options = {
-				settings = {
-					-- Any extra CLI arguments for `ruff` go here.
-					args = {},
-				},
-			},
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		-- lspconfig["ruff_lsp"].setup({
+		-- 	init_options = {
+		-- 		settings = {
+		-- 			-- Any extra CLI arguments for `ruff` go here.
+		-- 			args = {},
+		-- 		},
+		-- 	},
+		-- 	capabilities = capabilities,
+		-- 	on_attach = on_attach,
+		-- })
 
 		lspconfig["pylsp"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
+			-- For troubleshooting pylsp issues:
+			cmd = { "pylsp", "-vvv", "--log-file", "/tmp/pylsp.log" },
 			settings = {
 				pylsp = {
 					plugins = {
 						ruff = {
 							-- formatter + Linter + isort
 							enabled = true,
-							extendSelect = { "I" },
+							-- extendSelect = { "ALL" },
+							format = { "ALL" },
 						},
 						-- formatter options
 						black = { enabled = false },
@@ -124,8 +127,7 @@ return {
 						pyflakes = { enabled = false },
 						pycodestyle = { enabled = false },
 						-- type checker
-						pylsp_mypy = { enabled = true },
-						mypy = { enabled = true },
+						pylsp_mypy = { enabled = true, report_progress = true },
 						-- auto-completion options
 						jedi_completion = { fuzzy = true },
 						-- import sorting
