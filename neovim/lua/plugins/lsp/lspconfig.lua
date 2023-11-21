@@ -115,7 +115,22 @@ return {
 						ruff = {
 							-- formatter + Linter + isort
 							enabled = true,
-							-- extendSelect = { "ALL" },
+							extendSelect = {
+								-- pycodestyle
+								"E",
+								-- Pyflakes
+								"F",
+								-- pyupgrade
+								"UP",
+								-- flake8-bugbear
+								"B",
+								-- flake8-simplify
+								"SIM",
+                                -- flake8-commas
+                                "COM",
+								-- isort
+								"I",
+							},
 							format = { "ALL" },
 						},
 						-- formatter options
