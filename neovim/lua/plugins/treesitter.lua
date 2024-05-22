@@ -1,7 +1,8 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
+		-- "nvim-treesitter/nvim-treesitter-textobjects",
+		{ "kiyoon/nvim-treesitter-textobjects", branch = "fix/builtin_find" },
 		"windwp/nvim-ts-autotag",
 		"nvim-treesitter/nvim-treesitter-context",
 	},
@@ -159,23 +160,22 @@ return {
 		})
 
 		-- Repeat movements:
-        -- disable until https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/519 is fixed
-		-- local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-		-- Repeat movement with ; and ,
+		local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
+		-- Repeat movement with ; and ,
 		-- vim way: ; goes to the direction you were moving.
-		-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move, { desc = "Repeat last move" })
-		-- vim.keymap.set(
-		-- 	{ "n", "x", "o" },
-		-- 	",",
-		-- 	ts_repeat_move.repeat_last_move_opposite,
-		-- 	{ desc = "Repeat opposite of last move" }
-		-- )
+		vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move, { desc = "Repeat last move" })
+		vim.keymap.set(
+			{ "n", "x", "o" },
+			",",
+			ts_repeat_move.repeat_last_move_opposite,
+			{ desc = "Repeat opposite of last move" }
+		)
 
 		-- make builtin f, F, t, T also repeatable with ; and ,
-		-- vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-		-- vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-		-- vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-		-- vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+		vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
+		vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
+		vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
+		vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 	end,
 }
