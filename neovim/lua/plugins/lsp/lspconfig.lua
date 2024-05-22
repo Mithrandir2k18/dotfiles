@@ -39,7 +39,7 @@ return {
 			keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 
 			opts.desc = "Show type definitions"
-			keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+			keymap.set("n", "<leader>gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 
 			opts.desc = "Show code actions"
 			keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
@@ -93,16 +93,16 @@ return {
 			on_attach = on_attach,
 		})
 
-		-- lspconfig["ruff_lsp"].setup({
-		-- 	init_options = {
-		-- 		settings = {
-		-- 			-- Any extra CLI arguments for `ruff` go here.
-		-- 			args = {},
-		-- 		},
-		-- 	},
-		-- 	capabilities = capabilities,
-		-- 	on_attach = on_attach,
-		-- })
+		lspconfig["ruff_lsp"].setup({
+			init_options = {
+				settings = {
+					-- Any extra CLI arguments for `ruff` go here.
+					args = {},
+				},
+			},
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
 
 		lspconfig["pylsp"].setup({
 			capabilities = capabilities,
@@ -126,8 +126,8 @@ return {
 								"B",
 								-- flake8-simplify
 								"SIM",
-                                -- flake8-commas
-                                "COM",
+								-- flake8-commas
+								"COM",
 								-- isort
 								"I",
 							},
