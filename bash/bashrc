@@ -57,6 +57,7 @@ export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 alias k=kubectl
 complete -o default -F __start_kubectl k
 
+eval $(ssh-agent -s) > /dev/null
 eval "$(direnv hook bash)"
 
 export PATH=$PATH:$HOME/.cargo/bin

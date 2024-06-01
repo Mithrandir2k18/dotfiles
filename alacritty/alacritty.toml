@@ -147,7 +147,7 @@ mods = "Shift"
 history = 5000
 
 [shell]
-program = "nu"
+program = "bash"
 
 [window]
 dynamic_padding = false
