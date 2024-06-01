@@ -182,5 +182,14 @@ return {
 				},
 			},
 		})
+
+		lspconfig.rust_analyzer.setup({
+			-- Server-specific settings. See `:help lspconfig-setup`
+			settings = {
+				["rust-analyzer"] = {},
+			},
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
 	end,
 }

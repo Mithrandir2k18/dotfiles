@@ -1,8 +1,7 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	dependencies = {
-		-- "nvim-treesitter/nvim-treesitter-textobjects",
-		{ "kiyoon/nvim-treesitter-textobjects", branch = "fix/builtin_find" },
+		"nvim-treesitter/nvim-treesitter-textobjects",
 		"windwp/nvim-ts-autotag",
 		"nvim-treesitter/nvim-treesitter-context",
 	},
