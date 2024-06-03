@@ -64,3 +64,13 @@ export PATH=$PATH:$HOME/.cargo/bin
 eval "$(zoxide init bash)"
 eval "$(starship init bash)"
 
+if [ -f ~/dotfiles/scripts/scripts_paths ]; then
+    OLD_PATH=$PATH
+    source ~/dotfiles/scripts/scripts_paths
+
+    if (( ${#PATH} < ${#OLD_PATH} )); then
+        echo "Something went wrong with the scripts_paths file. Reverting to Path before that"
+        export PATH=$OLD_PATH
+    fi
+fi
+

@@ -37,7 +37,7 @@ vim.keymap.set("i", "jj", "<Esc>", { desc = "Escape insert mode" })
 vim.keymap.set("n", "Q", "<nop>")
 
 -- with tmux active, jump to different project
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>",
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer-rs --config ~/dotfiles/scripts/tmux-sessionizer-config.yaml<CR>",
     { desc = "Find project and open in tmux session" })
 
 -- reformat file (see formatting.lua)
