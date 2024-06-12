@@ -2,17 +2,12 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		"folke/neodev.nvim",
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		"ray-x/lsp_signature.nvim",
 		{ "RaafatTurki/corn.nvim" },
 	},
 	config = function()
-		-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-		require("neodev").setup({
-			-- add any options here, or leave empty to use the default settings
-		})
 		-- import lspconfig plugin
 		local lspconfig = require("lspconfig")
 
