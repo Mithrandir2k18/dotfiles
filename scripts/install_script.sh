@@ -29,10 +29,14 @@ install: setup
 	@echo "Installing \$(SCRIPT_NAME)..."
 	@echo "export PATH=\\\$\$PATH:\$(BIN_DIR)" >> \$(SCRIPTS_PATH_FILE)
 
-setup:
+setup: download build
+
+download:
 	@echo "Setting up \$(SCRIPT_NAME)..."
 	@mkdir -p \$(SCRIPT_DIR)
 	@if [ ! -d "\$(SCRIPT_DIR)/.git" ]; then git clone \$(REPO_URL) \$(SCRIPT_DIR); fi
+
+build:
 	# Default make command
 	@make -C \$(SCRIPT_DIR)
 
@@ -40,12 +44,13 @@ remove:
 	@echo "Removing \$(SCRIPT_NAME)..."
 	@sed -i.bak "/\$(BIN_DIR)/d" \$(SCRIPTS_PATH_FILE)
 
-update:
+update: pull build
+
+pull:
 	@echo "Updating \$(SCRIPT_NAME)..."
 	@git -C \$(SCRIPT_DIR) pull
-	@make -C \$(SCRIPT_DIR)
 
-.PHONY: all install setup remove update
+.PHONY: all install remove update
 EOL
     fi
 
