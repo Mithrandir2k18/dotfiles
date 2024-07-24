@@ -42,9 +42,6 @@ return {
 				row = 0,
 				col = 1,
 			},
-			yadm = {
-				enable = false,
-			},
 		})
 
 		vim.keymap.set({ "n" }, "<leader>gb", gs.toggle_current_line_blame, { desc = "Toggle Git Blame (per line)" })
