@@ -29,9 +29,9 @@ import subprocess
 
 import psutil
 from libqtile import bar, hook, layout, widget
+from libqtile.command.base import expose_command
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
 from libqtile.log_utils import logger
 
 try:
@@ -186,29 +186,33 @@ class MyStack(layout.Stack):
     Simply add left/right to Stack so hjkl works similar to other layouts.
     """
 
-    def cmd_left(self):
-        self.cmd_previous()
+    @expose_command()
+    def left(self):
+        self.previous()
 
-    def cmd_right(self):
-        self.cmd_next()
+    @expose_command()
+    def right(self):
+        self.next()
 
-    # TODO shuffle left/right sometimes causes graphical glitches
-    # TODO find a way to trigger a redraw of the entire screen
-    def cmd_shuffle_left(self):
+    @expose_command()
+    def shuffle_left(self):
         # self.cmd_swap_left()
-        self.cmd_client_to_previous()
+        self.client_to_previous()
 
-    def cmd_shuffle_right(self):
-        self.cmd_client_to_next()
+    @expose_command()
+    def shuffle_right(self):
+        self.client_to_next()
 
     # TODO maybe implement swap left/right
-    def cmd_swap_left(self):
-        self.cmd_swap_clients(self.current_stack_offset - 1)
+    @expose_command()
+    def swap_left(self):
+        self.swap_clients(self.current_stack_offset - 1)
 
-    def cmd_swap_right(self):
-        self.cmd_swap_clients(self.current_stack_offset + 1)
+    @expose_command()
+    def swap_right(self):
+        self.swap_clients(self.current_stack_offset + 1)
 
-    def cmd_swap_clients(self, n):
+    def swap_clients(self, n):
         # TODO not yet working, loses windows somehow it seems
         if not self.current_stack:
             return
@@ -299,7 +303,10 @@ def create_default_main_screen_widgets(screen_id: int):
 
     main_screen_widgets += [
         widget.Volume(volume_app="pavucontrol", **widget_defaults),
-        widget.Net(format="{up:6.2f}{up_suffix:>2} ↑↓ {down:6.2f}{down_suffix:>2}", **widget_defaults),
+        widget.Net(
+            format="{up:6.2f}{up_suffix:>2} ↑↓ {down:6.2f}{down_suffix:>2}",
+            **widget_defaults,
+        ),
         widget.Clock(format="%a %Y-%m-%d %H:%M:%S", **widget_defaults),
         widget.QuickExit(**widget_defaults),
     ]
