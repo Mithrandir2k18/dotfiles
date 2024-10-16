@@ -1,0 +1,19 @@
+[core]
+	editor = vim
+[includeIf "gitdir:~/repos/work/"]
+	path = ~/repos/work/.gitconfig
+[includeIf "gitdir:~/repos/oss/"]
+	path = ~/repos/oss/.gitconfig
+[includeIf "gitdir:~/dotfiles/"]
+	path = ~/repos/oss/.gitconfig
+[rerere]
+	enabled = true
+[column]
+	ui = auto
+[branches]
+	sort = -committerdate
+[alias]
+	pushf = push --force-with-lease --force-if-includes
+	commits = commit -S
+[rebase]
+	updateRefs = true
