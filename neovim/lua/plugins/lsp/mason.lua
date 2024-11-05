@@ -29,8 +29,6 @@ return {
             -- list of LSPs for mason to install
             ensure_installed = {
                 "lua_ls", -- lua
-                "pyright",
-                "pylsp", -- python LSP with jedi
             },
             -- auto-install configured servers (with lspconfig)
             automatic_installation = true, -- not the same as ensure_installed
