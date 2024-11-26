@@ -88,13 +88,7 @@ return {
 			on_attach = on_attach,
 		})
 
-		lspconfig["ruff_lsp"].setup({
-			init_options = {
-				settings = {
-					-- Any extra CLI arguments for `ruff` go here.
-					args = {},
-				},
-			},
+		lspconfig.ruff.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})

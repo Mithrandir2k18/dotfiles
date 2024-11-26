@@ -6,9 +6,14 @@
 [[ $- != *i* ]] && return
 
 # alias ls='ls --color=auto --classify --group-directories-first'
-alias ls='ls --color=auto --group-directories-first'
+alias ls='ls --color=auto --group-directories-first --classify'
+lscolor=$(vivid generate nord)
+if [ ! -z "${lscolor}" ]; then
+    export LS_COLORS=$lscolor
+fi
 PS1='[\u@\h \W]\$ '
 PS1='${\u:\h}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
 
 
 export PATH=$PATH:$HOME/.local/bin
@@ -18,8 +23,8 @@ export PATH=$PATH:$HOME/sdks/flutter/bin
 export $(envsubst < $HOME/dotfiles/dot_env)
 
 alias tmux='tmux -2'
-
 alias k9s='docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s'
+alias dvc='uvx --with dvc-ssh dvc'
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -55,12 +60,20 @@ alias k=kubectl
 complete -o default -F __start_kubectl k
 export KUBECONFIG=$(find ~/.kube -type f -o -path ~/.kube/cache -prune -a -type f | head -n 1)
 
+mkdir -p ~/.local/share/git-completion/
 if [ ! -f ~/.local/share/git-completion/git-completion.bash ]; then
-    mkdir -p ~/.local/share/git-completion/
     echo "Downloading missing git-completion."
     curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.local/share/git-completion/git-completion.bash
 fi
 source ~/.local/share/git-completion/git-completion.bash
+
+mkdir -p ~/.local/share/uv-completion/
+if [ ! -f ~/.local/share/uv-completion/uv.bash ]; then
+    uv generate-shell-completion bash > ~/.local/share/uv-completion/uv.bash
+    uvx --generate-shell-completion bash > ~/.local/share/uv-completion/uvx.bash
+fi
+source ~/.local/share/uv-completion/uv.bash
+source ~/.local/share/uv-completion/uvx.bash
 
 eval $(ssh-agent -s) > /dev/null
 eval "$(direnv hook bash)"
@@ -87,4 +100,8 @@ function gitignore(){
 
 function switchkube(){
     export KUBECONFIG=$(find ~/.kube -type f -o -path ~/.kube/cache -prune -a -type f | fzf)
+}
+
+function lscolorpicker(){
+    export LS_COLORS=$(vivid themes | fzf | xargs vivid generate)
 }

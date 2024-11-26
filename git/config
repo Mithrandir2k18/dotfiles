@@ -4,6 +4,8 @@
 	path = ~/repos/work/.gitconfig
 [includeIf "gitdir:~/repos/oss/"]
 	path = ~/repos/oss/.gitconfig
+[includeIf "gitdir:~/repos/uni/"]
+	path = ~/repos/uni/.gitconfig
 [includeIf "gitdir:~/dotfiles/"]
 	path = ~/repos/oss/.gitconfig
 [rerere]
@@ -17,3 +19,7 @@
 	commits = commit -S
 [rebase]
 	updateRefs = true
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
