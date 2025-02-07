@@ -36,22 +36,22 @@ shape = "Block"
 TERM = "alacritty"
 
 [font]
-size = 13.5
+size = 13
 
 [font.bold]
-family = "DejaVu Sans Mono"
+family = "DejaVuSansMNerdFont"
 style = "Bold"
 
 [font.bold_italic]
-family = "DejaVu Sans Mono"
+family = "DejaVuSansMNerdFont"
 style = "Bold Italic"
 
 [font.italic]
-family = "DejaVu Sans Mono"
+family = "DejaVuSansMNerdFont"
 style = "Italic"
 
 [font.normal]
-family = "DejaVu Sans Mono"
+family = "DejaVuSansMNerdFont"
 style = "Regular"
 
 [font.offset]
