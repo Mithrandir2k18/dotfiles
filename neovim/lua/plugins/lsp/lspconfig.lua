@@ -76,69 +76,23 @@ return {
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
-		-- local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
+		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+		-- local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" } -- fallback to this if symbols are unavailable
 		for type, icon in pairs(signs) do
 			local hl = "DiagnosticSign" .. type
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
+        -- lsp for c, c++
 		lspconfig["clangd"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
+        -- lsp for python
 		lspconfig.ruff.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		})
-
-		lspconfig["pylsp"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			-- For troubleshooting pylsp issues:
-			cmd = { "pylsp", "-vvv", "--log-file", "/tmp/pylsp.log" },
-			settings = {
-				pylsp = {
-					plugins = {
-						ruff = {
-							-- formatter + Linter + isort
-							enabled = true,
-							extendSelect = {
-								-- pycodestyle
-								"E",
-								-- Pyflakes
-								"F",
-								-- pyupgrade
-								"UP",
-								-- flake8-bugbear
-								"B",
-								-- flake8-simplify
-								"SIM",
-								-- flake8-commas
-								"COM",
-								-- isort
-								"I",
-							},
-							format = { "ALL" },
-						},
-						-- formatter options
-						black = { enabled = false },
-						autopep8 = { enabled = false },
-						yapf = { enabled = false },
-						-- linter options
-						pylint = { enabled = false, executable = "pylint" },
-						pyflakes = { enabled = false },
-						pycodestyle = { enabled = false },
-						-- type checker
-						pylsp_mypy = { enabled = true, report_progress = true },
-						-- auto-completion options
-						jedi_completion = { fuzzy = true },
-						-- import sorting
-						pyls_isort = { enabled = false },
-					},
-				},
-			},
 		})
 
 		-- configure lua server (with special settings)
