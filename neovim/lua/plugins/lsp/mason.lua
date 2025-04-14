@@ -38,9 +38,11 @@ return {
             ensure_installed = {
                 "stylua", -- lua formatter
                 "ruff", -- python linter+formatter
-                "ruff-lsp", -- ruff interface
-                "mypy", -- python static type checker
+                -- "pylsp",
+                -- "ruff-lsp", -- ruff interface
+                -- "mypy", -- python static type checker
                 "debugpy", -- python debugger
+                "pyright",
                 -- "isort", -- python formatter
                 -- "black", -- python formatter
                 -- "pylint", -- python linter

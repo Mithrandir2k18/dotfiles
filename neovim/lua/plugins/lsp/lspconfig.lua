@@ -83,16 +83,49 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-        -- lsp for c, c++
+		-- lsp for c, c++
 		lspconfig["clangd"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
-        -- lsp for python
+		local function deepcopy(orig)
+			local copy = {}
+			for k, v in pairs(orig) do
+				if type(v) == "table" then
+					copy[k] = deepcopy(v)
+				else
+					copy[k] = v
+				end
+			end
+			return copy
+		end
+
+		--- pyright expects utf-16 so we have to set it for ruff
+		local ruff_capabilities = deepcopy(capabilities)
+		ruff_capabilities.general = ruff_capabilities.general or {}
+		ruff_capabilities.general.positionEncodings = { "utf-16" }
+
+		-- lsp for python
 		lspconfig.ruff.setup({
-			capabilities = capabilities,
+			capabilities = ruff_capabilities,
 			on_attach = on_attach,
+		})
+
+		-- lsp for python, provides features ruff is missing like go to definition
+		require("lspconfig").pyright.setup({
+			settings = {
+				pyright = {
+					-- Using Ruff's import organizer
+					disableOrganizeImports = true,
+				},
+				python = {
+					analysis = {
+						-- Ignore all files for analysis to exclusively use Ruff for linting
+						ignore = { "*" },
+					},
+				},
+			},
 		})
 
 		-- configure lua server (with special settings)
@@ -118,6 +151,10 @@ return {
 							library = vim.api.nvim_get_runtime_file("", true),
 							checkThirdParty = false,
 						},
+					},
+					defaultConfig = {
+						indent_style = "space",
+						indent_size = "3",
 					},
 					telemetry = {
 						enable = false,
