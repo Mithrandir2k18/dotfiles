@@ -70,4 +70,3 @@ vim.o.cmdheight = 0
 --     pattern = "*",
 --     command = [[%s/\s\+$//e]],
 -- })
-

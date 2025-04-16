@@ -37,15 +37,19 @@ vim.keymap.set("i", "jj", "<Esc>", { desc = "Escape insert mode" })
 vim.keymap.set("n", "Q", "<nop>")
 
 -- with tmux active, jump to different project
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer-rs --config ~/dotfiles/scripts/tmux-sessionizer-config.yaml<CR>",
-    { desc = "Find project and open in tmux session" })
-
+vim.keymap.set(
+  "n",
+  "<C-f>",
+  "<cmd>silent !tmux neww tmux-sessionizer-rs --config ~/dotfiles/scripts/tmux-sessionizer-config.yaml<CR>",
+  { desc = "Find project and open in tmux session" }
+)
 -- reformat file (see formatting.lua)
 -- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format file" })
 
 -- toggle commandline height
-vim.keymap.set("n", "<leader>tc", function() vim.o.cmdheight = (vim.o.cmdheight + 1) % 2 end,
-    { desc = "Toggle cmdline height" })
+vim.keymap.set("n", "<leader>tc", function()
+  vim.o.cmdheight = (vim.o.cmdheight + 1) % 2
+end, { desc = "Toggle cmdline height" })
 
 -- quickfix (trouble) navigation
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
@@ -54,17 +58,25 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- replace inner word in file
-vim.keymap.set("n", "<leader>riw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-    { desc = "Replace current word with pattern" })
+vim.keymap.set(
+  "n",
+  "<leader>riw",
+  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { desc = "Replace current word with pattern" }
+)
 
 -- make current file executeable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executeable" })
 
 -- open plugins file (managed with lazy)
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/dotfiles/neovim/lua/Mithrandir2k18/plugins.lua<CR>",
-    { desc = "Open plugins file" });
+vim.keymap.set(
+  "n",
+  "<leader>vpp",
+  "<cmd>e ~/dotfiles/neovim/lua/Mithrandir2k18/plugins.lua<CR>",
+  { desc = "Open plugins file" }
+)
 
 -- shoutout(reload) current file (for reloading neovim config files)
 vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+  vim.cmd("so")
 end, { desc = "Shoutout current file to neovim" })
