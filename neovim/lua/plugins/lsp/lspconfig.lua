@@ -69,7 +69,12 @@ return {
         floating_window = false,
       }, bufnr)
 
-      require("corn").setup()
+      require("corn").setup({
+        icons = { error = " ", warn = " ", hint = "󰠠 ", info = " " },
+        item_preprocess_func = function(item)
+          return item
+        end,
+      })
     end
 
     -- used to enable autocompletion (assign to every lsp server config)
