@@ -1,11 +1,11 @@
 return {
   "saghen/blink.cmp",
-  -- optional: provides snippets for the snippet source
   dependencies = {
     { "rafamadriz/friendly-snippets" },
     { "L3MON4D3/LuaSnip" }, -- snippet engine
     { "onsails/lspkind.nvim" }, -- emojis in recommendations
     { "folke/lazydev.nvim" },
+    { "nvim-tree/nvim-web-devicons" },
   },
 
   -- use a release tag to download pre-built binaries
@@ -30,7 +30,25 @@ return {
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = { preset = "default" },
+    keymap = {
+      preset = "none", -- default preset but with CR for accept
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-e>"] = { "hide" },
+      ["<CR>"] = { "select_and_accept", "fallback" },
+
+      ["<Up>"] = { "select_prev", "fallback" },
+      ["<Down>"] = { "select_next", "fallback" },
+      ["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+      ["<C-n>"] = { "select_next", "fallback_to_mappings" },
+
+      ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+      ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+
+      ["<Tab>"] = { "snippet_forward", "fallback" },
+      ["<S-Tab>"] = { "snippet_backward", "fallback" },
+
+      ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+    },
 
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -39,7 +57,42 @@ return {
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = false } },
+    completion = {
+      documentation = { auto_show = false },
+      menu = {
+        draw = {
+          columns = {
+            { "kind_icon", "label", gap = 1 },
+            { "kind" },
+          },
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                local icon = require("lspkind").symbolic(ctx.kind, {
+                  mode = "symbol",
+                })
+
+                return icon .. ctx.icon_gap
+              end,
+
+              -- Optionally, use the highlight groups from nvim-web-devicons
+              -- You can also add the same function for `kind.highlight` if you want to
+              -- keep the highlight groups in sync with the icons.
+              highlight = function(ctx)
+                local hl = ctx.kind_hl
+                if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                  local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+                  if dev_icon then
+                    hl = dev_hl
+                  end
+                end
+                return hl
+              end,
+            },
+          },
+        },
+      },
+    },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
