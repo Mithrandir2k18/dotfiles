@@ -2,9 +2,8 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
-    "ray-x/lsp_signature.nvim",
+    { "ray-x/lsp_signature.nvim" },
     { "RaafatTurki/corn.nvim" },
   },
   config = function()
@@ -12,7 +11,7 @@ return {
     local lspconfig = require("lspconfig")
 
     -- import cmp-nvim-lsp plugin
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
     local keymap = vim.keymap -- for conciseness
 
@@ -78,7 +77,6 @@ return {
     end
 
     -- used to enable autocompletion (assign to every lsp server config)
-    local capabilities = cmp_nvim_lsp.default_capabilities()
 
     -- Change the Diagnostic symbols in the sign column (gutter)
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
@@ -89,53 +87,27 @@ return {
     end
 
     -- lsp for c, c++
-    lspconfig["clangd"].setup({
-      capabilities = capabilities,
+    vim.lsp.config("clangd", {
       on_attach = on_attach,
     })
 
-    local function deepcopy(orig)
-      local copy = {}
-      for k, v in pairs(orig) do
-        if type(v) == "table" then
-          copy[k] = deepcopy(v)
-        else
-          copy[k] = v
-        end
-      end
-      return copy
-    end
-
-    --- pyright expects utf-16 so we have to set it for ruff
-    local ruff_capabilities = deepcopy(capabilities)
-    ruff_capabilities.general = ruff_capabilities.general or {}
-    ruff_capabilities.general.positionEncodings = { "utf-16" }
-
     -- lsp for python
-    lspconfig.ruff.setup({
-      capabilities = ruff_capabilities,
+    vim.lsp.config("ruff", {
       on_attach = on_attach,
     })
 
     -- lsp for python, provides features ruff is missing like go to definition
-    require("lspconfig").pyright.setup({
+    vim.lsp.config("basedpyright", {
       settings = {
         pyright = {
           -- Using Ruff's import organizer
           disableOrganizeImports = true,
         },
-        python = {
-          analysis = {
-            -- Ignore all files for analysis to exclusively use Ruff for linting
-            -- ignore = { "*" },
-          },
-        },
       },
     })
 
     -- configure lua server (with special settings)
-    lspconfig["lua_ls"].setup({
-      capabilities = capabilities,
+    vim.lsp.config("lua_ls", {
       on_attach = on_attach,
       settings = { -- custom settings for lua
         Lua = {
@@ -164,12 +136,11 @@ return {
       },
     })
 
-    lspconfig.rust_analyzer.setup({
+    vim.lsp.config("rust_analyzer", {
       -- Server-specific settings. See `:help lspconfig-setup`
       settings = {
         ["rust-analyzer"] = {},
       },
-      capabilities = capabilities,
       on_attach = on_attach,
     })
   end,

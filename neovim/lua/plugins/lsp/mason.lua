@@ -1,8 +1,8 @@
 return {
   "williamboman/mason.nvim",
   dependencies = {
-    "williamboman/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    { "williamboman/mason-lspconfig.nvim" },
+    { "WhoIsSethDaniel/mason-tool-installer.nvim" },
   },
   config = function()
     -- import mason
@@ -30,8 +30,7 @@ return {
       ensure_installed = {
         "lua_ls", -- lua
       },
-      -- auto-install configured servers (with lspconfig)
-      automatic_installation = true, -- not the same as ensure_installed
+      automatic_enable = true,
     })
 
     mason_tool_installer.setup({
@@ -42,7 +41,7 @@ return {
         -- "ruff-lsp", -- ruff interface
         -- "mypy", -- python static type checker
         "debugpy", -- python debugger
-        "pyright",
+        "basedpyright",
         -- "isort", -- python formatter
         -- "black", -- python formatter
         -- "pylint", -- python linter
