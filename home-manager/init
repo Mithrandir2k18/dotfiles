@@ -1,0 +1,8 @@
+#!/bin/env bash
+
+mkdir -p $HOME/.config/
+mkdir -p $HOME/.local/bin/
+
+ln -sf $HOME/dotfiles/home-manager/ $HOME/.config/home-manager
+ln -sf $HOME/dotfiles/home-manager/hm-switch $HOME/.local/bin/hm-switch
+

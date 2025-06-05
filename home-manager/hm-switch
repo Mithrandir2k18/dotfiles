@@ -1,0 +1,4 @@
+#!/bin/env bash
+
+home-manager switch --impure --flake ~/.config/home-manager/#"$USER@$HOSTNAME"
+
