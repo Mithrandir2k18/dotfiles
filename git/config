@@ -1,25 +1,23 @@
 [core]
-	editor = vim
-[includeIf "gitdir:~/repos/work/"]
-	path = ~/repos/work/.gitconfig
-[includeIf "gitdir:~/repos/oss/"]
-	path = ~/repos/oss/.gitconfig
-[includeIf "gitdir:~/repos/uni/"]
-	path = ~/repos/uni/.gitconfig
-[includeIf "gitdir:~/dotfiles/"]
-	path = ~/repos/oss/.gitconfig
+    editor = vim
+[include]
+    path = ~/.config/git/delta.config
 [rerere]
-	enabled = true
+    enabled = true
 [column]
-	ui = auto
+    ui = auto
 [branches]
-	sort = -committerdate
+    sort = -committerdate
 [alias]
-	pushf = push --force-with-lease --force-if-includes
-	commits = commit -S
+    pushf = push --force-with-lease --force-if-includes
+    commits = commit -S
 [rebase]
-	updateRefs = true
+    updateRefs = true
 [pull]
-	rebase = true
+    rebase = true
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
+# include folder-specific settings
+[include]
+    path = ~/repos/.gitconfig
