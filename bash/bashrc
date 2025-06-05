@@ -120,3 +120,4 @@ eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 
 source "$HOME/.local/share/../bin/env"
+
