@@ -26,6 +26,8 @@ includes](https://git-scm.com/docs/git-config#Documentation/git-config.txt-codeg
     signingkey = ~/.ssh/workgitprivkey
 [gpg]
     format = ssh
+[gpg "ssh"]
+    allowedSignersFile = ~/repos/work/.allowed_signers
 
 ...
 ```

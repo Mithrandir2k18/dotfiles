@@ -11,6 +11,7 @@
 [alias]
     pushf = push --force-with-lease --force-if-includes
     commits = commit -S
+    logs = log --show-signature
 [rebase]
     updateRefs = true
 [pull]
