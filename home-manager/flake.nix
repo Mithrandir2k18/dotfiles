@@ -4,6 +4,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +17,7 @@
     let
       system = "x86_64-linux";
       pkgs = inputs.nixpkgs.legacyPackages.${system};
+      pkgsUnstable = inputs.nixpkgs-unstable.legacyPackages.${system};
       secrets.username = builtins.getEnv "USER";
       secrets.homeDirectory = builtins.getEnv "HOME";
       secrets.hostName = builtins.getEnv "HOSTNAME";
@@ -35,6 +37,7 @@
             extraSpecialArgs = {
               inherit nixgl;
               inherit secrets;
+              inherit pkgsUnstable;
             };
           };
       };

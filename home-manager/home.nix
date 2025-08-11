@@ -1,4 +1,4 @@
-{ config, pkgs, nixgl, secrets, ... }:
+{ config, pkgs, pkgsUnstable, nixgl, secrets, ... }:
 
 {
   home = {
@@ -35,7 +35,7 @@
 
     # editors
     micro
-    neovim
+    pkgsUnstable.neovim
     
     # rust tools
     uutils-coreutils
