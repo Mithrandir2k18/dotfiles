@@ -117,8 +117,41 @@ yq() {
 
 eval "$(direnv hook bash)"
 export PATH=$PATH:$HOME/.cargo/bin
-eval "$(starship init bash)"
-eval "$(zoxide init bash)"
 
 source "$HOME/.local/share/../bin/env"
+
+_auto_direnv_uv_shell() {
+  if [[ -z "$USE_UV_RUN_BASH" && -n "$INSIDE_UV_RUN_BASH" ]]; then
+    echo "Left project folder, exiting uv run bash"
+    echo $(pwd) > "$UV_EXIT_CD_LOCATION"
+    exit
+  fi
+
+  if [[ "$USE_UV_RUN_BASH" == "1" && -z "$INSIDE_UV_RUN_BASH" ]]; then
+    if [[ "$UV_RUN_BASH_EXITED" == "1" ]]; then
+      echo "Skipping re-entry: just exited uv shell"
+      return
+    fi
+
+    export INSIDE_UV_RUN_BASH=1
+    export UV_RUN_BASH_EXITED=0
+    export UV_EXIT_CD_LOCATION="$XDG_RUNTIME_DIR/$(cat /proc/sys/kernel/random/uuid).txt"
+    echo 'Entering `uv run bash` subshell...'
+
+    uv run bash
+
+    export UV_RUN_BASH_EXITED=1
+    if [ -f $UV_EXIT_CD_LOCATION ]; then
+        cd "$(head -1 $UV_EXIT_CD_LOCATION)"
+        unset UV_RUN_BASH_EXITED
+    fi
+    unset INSIDE_UV_RUN_BASH
+    unset UV_EXIT_CD_LOCATION
+  fi
+}
+
+PROMPT_COMMAND="$PROMPT_COMMAND; _auto_direnv_uv_shell; "
+
+eval "$(starship init bash)"
+eval "$(zoxide init bash)"
 
