@@ -30,13 +30,14 @@
 
     # terminal emulator
     (config.lib.nixGL.wrap ghostty)
+    tmux
     # shells
     fish
 
     # editors
     micro
     pkgsUnstable.neovim
-    
+
     # rust tools
     uutils-coreutils
     wiki-tui
@@ -63,6 +64,10 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink
+      "/home/${secrets.username}/dotfiles/ghostty";
+    ".config/fish".source = config.lib.file.mkOutOfStoreSymlink
+      "/home/${secrets.username}/dotfiles/fishshell";
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
