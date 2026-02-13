@@ -1,0 +1,7 @@
+alias ls='ls --color=auto --group-directories-first --classify'
+alias ll='ls -lah'
+alias tmux='tmux -2'
+alias k9s='docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s'
+alias dvc='uvx --with dvc-ssh dvc'
+alias markitdown='uvx markitdown'
+alias k='kubectl'

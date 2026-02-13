@@ -5,15 +5,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# alias ls='ls --color=auto --classify --group-directories-first'
-alias ls='ls --color=auto --group-directories-first --classify'
 lscolor=$(vivid generate nord)
 if [ ! -z "${lscolor}" ]; then
     export LS_COLORS=$lscolor
 fi
 PS1='[\u@\h \W]\$ '
 PS1='${\u:\h}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-
 
 
 export HOSTNAME=$(hostname)
@@ -23,66 +20,14 @@ export PATH=$PATH:$HOME/sdks/flutter/bin
 # set XDG directories and editor variables
 export $(envsubst < $HOME/dotfiles/dot_env)
 
-alias tmux='tmux -2'
-alias k9s='docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s'
-alias dvc='uvx --with dvc-ssh dvc'
-alias markitdown='uvx markitdown'
 alias docker-container-clean='docker rm -v $(docker ps --filter status=exited -q)'
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$HOME/.pyenv/shims:${PATH}"
-
-export PYENV_SHELL=bash
-command pyenv rehash 2>/dev/null
-pyenv() {
-  local command
-  command="${1:-}"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")"
-    ;;
-  *)
-    command pyenv "$command" "$@"
-    ;;
-  esac
-}
 
 
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
 # END_KITTY_SHELL_INTEGRATION
 
-export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
-
-export KUBECONFIG=$(find ~/.kube -type f -o -path ~/.kube/cache -prune -a -type f | head -n 1)
-mkdir -p ~/.local/share/kubectl-completion/
-if [ ! -f ~/.local/share/kubectl-completion/kubectl-completion.bash ]; then
-    echo "Creating missing kubectl-completion."
-    kubectl completion bash > ~/.local/share/kubectl-completion/kubectl-completion.bash
-fi
-source ~/.local/share/kubectl-completion/kubectl-completion.bash
-alias k=kubectl
-complete -o default -F __start_kubectl k
-
-mkdir -p ~/.local/share/git-completion/
-if [ ! -f ~/.local/share/git-completion/git-completion.bash ]; then
-    echo "Downloading missing git-completion."
-    curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.local/share/git-completion/git-completion.bash
-fi
-source ~/.local/share/git-completion/git-completion.bash
-
-mkdir -p ~/.local/share/uv-completion/
-if [ ! -f ~/.local/share/uv-completion/uv.bash ]; then
-    uv generate-shell-completion bash > ~/.local/share/uv-completion/uv.bash
-    uvx --generate-shell-completion bash > ~/.local/share/uv-completion/uvx.bash
-fi
-source ~/.local/share/uv-completion/uv.bash
-source ~/.local/share/uv-completion/uvx.bash
+export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 
 eval $(ssh-agent -s) > /dev/null
 
@@ -97,61 +42,14 @@ if [ -f ~/dotfiles/scripts/scripts_paths ]; then
     fi
 fi
 
-function gitignore(){
-    gitignoreurl="https://www.toptal.com/developers/gitignore/api";
-    selection=$(curl -sL "$gitignoreurl/list" | sed 's/,/\n/g' | fzf --multi --preview 'cat {+f}' --bind 'tab:toggle+clear-query' | tr '\n' ',' | sed 's/,$//g');
-    curl -sL "$gitignoreurl/$selection" >> .gitignore;
-}
-
-function switchkube(){
-    export KUBECONFIG=$(find ~/.kube -type f -o -path ~/.kube/cache -prune -a -type f | fzf)
-}
-
-function lscolorpicker(){
-    export LS_COLORS=$(vivid themes | fzf | xargs vivid generate)
-}
-
-yq() {
-  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
-}
-
-eval "$(direnv hook bash)"
 export PATH=$PATH:$HOME/.cargo/bin
 
 source "$HOME/.local/share/../bin/env"
+source "$HOME/dotfiles/bash/functions"
+source "$HOME/dotfiles/bash/aliases"
 
-_auto_direnv_uv_shell() {
-  if [[ -z "$USE_UV_RUN_BASH" && -n "$INSIDE_UV_RUN_BASH" ]]; then
-    echo "Left project folder, exiting uv run bash"
-    echo $(pwd) > "$UV_EXIT_CD_LOCATION"
-    exit
-  fi
-
-  if [[ "$USE_UV_RUN_BASH" == "1" && -z "$INSIDE_UV_RUN_BASH" ]]; then
-    if [[ "$UV_RUN_BASH_EXITED" == "1" ]]; then
-      echo "Skipping re-entry: just exited uv shell"
-      return
-    fi
-
-    export INSIDE_UV_RUN_BASH=1
-    export UV_RUN_BASH_EXITED=0
-    export UV_EXIT_CD_LOCATION="$XDG_RUNTIME_DIR/$(cat /proc/sys/kernel/random/uuid).txt"
-    echo 'Entering `uv run bash` subshell...'
-
-    uv run bash
-
-    export UV_RUN_BASH_EXITED=1
-    if [ -f $UV_EXIT_CD_LOCATION ]; then
-        cd "$(head -1 $UV_EXIT_CD_LOCATION)"
-        unset UV_RUN_BASH_EXITED
-    fi
-    unset INSIDE_UV_RUN_BASH
-    unset UV_EXIT_CD_LOCATION
-  fi
-}
-
-PROMPT_COMMAND="$PROMPT_COMMAND; _auto_direnv_uv_shell; "
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
+eval "$(direnv hook bash)"
 

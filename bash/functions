@@ -1,0 +1,51 @@
+#!/bin/env bash
+
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
+
+export KUBECONFIG=$(find ~/.kube -type f -o -path ~/.kube/cache -prune -a -type f | head -n 1)
+mkdir -p ~/.local/share/kubectl-completion/
+if [ ! -f ~/.local/share/kubectl-completion/kubectl-completion.bash ]; then
+    echo "Creating missing kubectl-completion."
+    kubectl completion bash > ~/.local/share/kubectl-completion/kubectl-completion.bash
+fi
+source ~/.local/share/kubectl-completion/kubectl-completion.bash
+# alias k=kubectl
+complete -o default -F __start_kubectl k
+
+mkdir -p ~/.local/share/git-completion/
+if [ ! -f ~/.local/share/git-completion/git-completion.bash ]; then
+    echo "Downloading missing git-completion."
+    curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.local/share/git-completion/git-completion.bash
+fi
+source ~/.local/share/git-completion/git-completion.bash
+
+mkdir -p ~/.local/share/uv-completion/
+if [ ! -f ~/.local/share/uv-completion/uv.bash ]; then
+    uv generate-shell-completion bash > ~/.local/share/uv-completion/uv.bash
+    uvx --generate-shell-completion bash > ~/.local/share/uv-completion/uvx.bash
+fi
+source ~/.local/share/uv-completion/uv.bash
+source ~/.local/share/uv-completion/uvx.bash
+
+function gitignore(){
+    gitignoreurl="https://www.toptal.com/developers/gitignore/api";
+    selection=$(curl -sL "$gitignoreurl/list" | sed 's/,/\n/g' | fzf --multi --preview 'cat {+f}' --bind 'tab:toggle+clear-query' | tr '\n' ',' | sed 's/,$//g');
+    curl -sL "$gitignoreurl/$selection" >> .gitignore;
+}
+
+function switchkube(){
+    export KUBECONFIG=$(find ~/.kube -type f -o -path ~/.kube/cache -prune -a -type f | fzf)
+}
+
+function lscolorpicker(){
+    export LS_COLORS=$(vivid themes | fzf | xargs vivid generate)
+}
+
+yq() {
+  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
+}
+
+alias docker-container-clean='docker rm -v $(docker ps --filter status=exited -q)'
+
