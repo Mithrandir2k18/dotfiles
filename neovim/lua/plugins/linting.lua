@@ -1,12 +1,12 @@
 return {
   "mfussenegger/nvim-lint",
-  lazy = true,
   -- event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
+  ft = { "markdown" }, -- add filetypes to load non-lsp linters here
   config = function()
     local lint = require("lint")
 
     lint.linters_by_ft = {
-      python = { "mypy" },
+      markdown = { "markdownlint-cli2" },
     }
 
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

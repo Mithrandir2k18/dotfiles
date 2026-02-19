@@ -174,6 +174,9 @@ return {
         },
         dockerls = {},
 
+        ltex = {
+          language = "en-GB",
+        },
         lua_ls = {
           settings = {
             Lua = {
@@ -211,6 +214,7 @@ return {
       vim.list_extend(ensure_installed, {
         "stylua", -- Used to format Lua code
         "nixfmt",
+        "markdownlint-cli2",
       })
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

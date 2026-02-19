@@ -59,11 +59,11 @@ return {
             ["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
             ["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
 
-            ["ap"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
-            ["ip"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
+            ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
+            ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
 
-            ["ab"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
-            ["ib"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
+            ["ac"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
+            ["ic"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
 
             ["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
             ["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },

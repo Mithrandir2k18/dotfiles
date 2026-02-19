@@ -17,4 +17,12 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
   },
+  {
+    "brianhuster/live-preview.nvim",
+    lazy = true,
+    cmd = { "LivePreview" },
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+  },
 }
