@@ -9,7 +9,6 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ghostty.url = "github:ghostty-org/ghostty";
     nixgl.url = "github:nix-community/nixGL";
   };
 
@@ -20,7 +19,9 @@
       pkgsUnstable = inputs.nixpkgs-unstable.legacyPackages.${system};
       secrets.username = builtins.getEnv "USER";
       secrets.homeDirectory = builtins.getEnv "HOME";
-      secrets.hostName = builtins.getEnv "HOSTNAME";
+      secrets.hostName =
+        let h = builtins.getEnv "HOSTNAME";
+        in if h == "" then "default" else h;
     in
     {
       homeConfigurations = {

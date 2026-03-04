@@ -29,7 +29,7 @@
     statix
 
     # terminal emulator
-    (config.lib.nixGL.wrap ghostty)
+    (config.lib.nixGL.wrap pkgsUnstable.ghostty)
     tmux
     # shells
     fish
@@ -42,6 +42,9 @@
     uutils-coreutils
     wiki-tui
     yazi
+
+    # tools
+    git
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
